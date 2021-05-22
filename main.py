@@ -260,7 +260,7 @@ class Main:
         edit_record_page.mainloop()
 
     def delete_query(self,page,record_id):
-        response = messagebox.askyesno('DELETE RECORD','ARE YOU SURE TO DELETE THIS RECORD?')
+        response = messagebox.askyesno('DELETE RECORD',f'ARE YOU SURE TO DELETE RECORD FOR {record_id} ?')
         if(response):
             self.c.execute(f"DELETE FROM students WHERE student_id = '{record_id}'")
             self.connection.commit()         
