@@ -4,7 +4,6 @@ from tkinter import messagebox
 from PIL import ImageTk, Image
 from datetime import datetime
 import sqlite3
-from tkinter_custom_button import TkinterCustomButton as customButton
 
 WINDOW_SIZE = '800x580'
 FONT = ('Verdana', 15)
