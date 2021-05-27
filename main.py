@@ -420,7 +420,7 @@ class Main:
         Label(add_record_frame, text='IN:', bg='#FAF1E6').grid(sticky='W', row=6, column=1)
         self.schedule_in = Entry(add_record_frame, width=10)
         self.schedule_in.grid(row=6, column=2, sticky='W')
-        morning.set('A.M')
+        morning.set('AM')
         option_morning = OptionMenu(add_record_frame, morning, 'AM', 'PM')
         option_morning.grid(sticky='W', row=6, column=3, pady=(10, 0))
 
@@ -429,7 +429,7 @@ class Main:
         Label(add_record_frame, text='OUT:', bg='#FAF1E6').grid(sticky='W', row=7, column=1)
         self.schedule_out = Entry(add_record_frame, width=10)
         self.schedule_out.grid(sticky='W', row=7, column=2)
-        night.set('P.M')
+        night.set('PM')
         option_night = OptionMenu(add_record_frame, night, 'AM', 'PM')
         option_night.grid(sticky='W', row=7, column=3, pady=(10, 0))
 
@@ -454,8 +454,26 @@ class Main:
 
     def adding_record(self, adding_page, menu):
         # adding records to the database
-        self.schedule_in = f"{self.schedule_in.get()} {morning.get()}"
-        self.schedule_out = f"{self.schedule_out.get()} {night.get()}"
+
+        #validation for time format, can't explain further XD
+
+        if ':' in self.schedule_in.get():
+            self.schedule_in = f"{self.schedule_in.get()} {morning.get()}"
+        else:
+            self.schedule_in = f"{self.schedule_in.get()}:00 {morning.get()}"
+
+        if ':' in self.schedule_out.get():
+            self.schedule_out = f"{self.schedule_out.get()} {night.get()}"
+        else:
+            self.schedule_out = f"{self.schedule_out.get()}:00 {night.get()}"
+
+        if len(self.schedule_in) < 8:
+            self.schedule_in = '0'+self.schedule_in
+
+        if len(self.schedule_out) < 8:
+            self.schedule_out = '0'+self.schedule_out
+
+            
         if self.unique_id(self.employee_id):
             self.c.execute(f"""INSERT INTO employees VALUES(
             '{self.employee_id.get()}',
