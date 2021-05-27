@@ -255,6 +255,8 @@ class Main:
         Label(employee_menu_frame, text=content[2], bg='#FAF1E6', font=FONT).grid(sticky='W', row=1, column=0, padx=5)
         Label(employee_menu_frame, text=content[3], bg='#FAF1E6', font=FONT).grid(sticky='W', row=1, column=1, padx=5,
                                                                                   columnspan=2)
+        Label(employee_menu_frame, text=f'YOUR SCHEDULE: {content[5]} to {content[6]}', bg='#FAF1E6',).grid(sticky='W', row=1, column=2, padx=5,
+                                                                                  columnspan=2)
 
         # time and date today
         emp = Label(employee_menu_frame, bg='#FAF1E6', font=('Verdana', 10), width=40)
@@ -602,14 +604,15 @@ class Main:
     def show_records(self, root_page):
         cell_size = 165
         mid_cell_size = 25
-        win_size='1100x600'
+        win_size='1100x620'
+        th_font ='Arial 12 bold'
         show_record_page = Toplevel()
         show_record_page.title('SHOW RECORDS')
         show_record_page.geometry(win_size)
         show_record_page.config(bg=BGCOLOR)
         show_record_frame=Frame(show_record_page)
-        show_record_frame.pack(pady=10)
-
+        show_record_frame.pack()
+        Label(show_record_frame, height=3, width=600, bg=HEADER_COLOR, text='EMPLOYEE RECORDS', font=FONT).pack(pady=(0, 10))
         #for table's scrollbar
         scrollbary = Scrollbar(show_record_frame, orient=VERTICAL)
 
@@ -647,10 +650,11 @@ class Main:
         self.tree.pack()
 
         edit_btn = Button(show_record_page,text="EDIT",command=lambda: self.edit_record(show_record_page),bg='#AAFE92')
-        edit_btn.pack()
+        edit_btn.place(x=935,y=525)
         delete_btn=Button(show_record_page,text="DELETE",command=lambda: self.delete_query(show_record_page, root_page),bg='#FE9292')
-        delete_btn.pack(pady=20)
-        Button(show_record_page, text='Go Back', width=10, command=lambda: [show_record_page.destroy(), root_page.deiconify()]).pack()
+        delete_btn.place(x=980,y=525)
+        back_btn=Button(show_record_page, text='Go Back', width=10, command=lambda: [show_record_page.destroy(), root_page.deiconify()])
+        back_btn.place(x=50,y=525)
 
         # check if user Exit the Window Manually
         show_record_page.protocol("WM_DELETE_WINDOW", lambda: [show_record_page.destroy(), root_page.deiconify()])
