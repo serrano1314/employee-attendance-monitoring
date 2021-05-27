@@ -532,6 +532,13 @@ class Main:
 
 
     def edit_record(self,page):
+        try:
+            record_tree = self.tree.selection()[0]
+        except:
+            messagebox.showinfo('Invalid', 'Please Select a Row in the Table First')
+        
+        record = self.tree.item(record_tree)
+        id = record['values'][0]
         cell_size = 35
         table_col=3
         win_size='400x300'
@@ -571,9 +578,7 @@ class Main:
         schedule_out_edit = Entry(edit_record_page, width=cell_size)
         schedule_out_edit.grid(row=8, column=table_col)
 
-        record_tree = self.tree.selection()[0]
-        record = self.tree.item(record_tree)
-        id = record['values'][0]
+
 
         self.c.execute(f"SELECT * FROM employees WHERE employee_id = '{id}'")
         records=self.c.fetchall()
@@ -593,8 +598,11 @@ class Main:
         edit_record_page.mainloop()
 
     def delete_query(self,page, root):
+        try:
+            record_tree = self.tree.selection()[0]
+        except:
+            messagebox.showinfo('Invalid', 'Please Select a Row in the Table First')
 
-        record_tree = self.tree.selection()[0]
         record = self.tree.item(record_tree)
         id = record['values'][0]
         response = messagebox.askyesno('DELETE RECORD',f'Delete Record for [{id}] ?')
