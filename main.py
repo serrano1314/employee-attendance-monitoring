@@ -685,9 +685,10 @@ class Main:
         attendance_page.geometry('1100x600')
         attendance_page.config(bg='#FAF1E6')
         th_font = 'Arial 12 bold'
-
+        cell_size = 150
+        mid_cell_size = 25
         # Attendance Header
-        Label(attendance_page, width=400, height=3, text='ATTENDANCE', bg=HEADER_COLOR, font=FONT).pack()
+        Label(attendance_page, width=400, height=3, text='ATTENDANCE RECORD', bg=HEADER_COLOR, font=FONT).pack()
 
         # Attendance Frame
         attendance_header = Frame(attendance_page, bg='#FAF1E6')
@@ -707,36 +708,43 @@ class Main:
         dates = Label(attendance_header, bg='#FAF1E6', font=FONT)
         dates.grid(row=0, column=5, pady=10, columnspan=3)
         self.current_time(dates)
+        
+        table_frame = Frame(attendance_page)
+        table_frame.pack(pady=10)
 
+        #for table's scrollbar
+        scrollbary = Scrollbar(table_frame, orient=VERTICAL)
         # Field data
-        Label(attendance_header, bg='#FAF1E6', text="EMPLOYEE ID ID", font=th_font, pady=10, padx=40).grid(row=2, column=1)
-        Label(attendance_header, bg='#FAF1E6', text="FIRST NAME", font=th_font, pady=10, padx=40).grid(row=2, column=2)
-        Label(attendance_header, bg='#FAF1E6', text="LAST NAME", font=th_font, pady=10, padx=40).grid(row=2, column=3)
-        Label(attendance_header, bg='#FAF1E6', text="STATUS", font=th_font, pady=10, padx=40).grid(row=2, column=4)
+        self.attendance_tree = ttk.Treeview(table_frame,selectmode=BROWSE,yscrollcommand=scrollbary.set,height=15)
+        scrollbary.config(command=self.attendance_tree.yview)
+        scrollbary.pack(side=RIGHT, fill=Y)
+        self.attendance_tree['columns'] = ('EMPLOYEE ID', 'FIRST NAME', 'LAST NAME', 'DATE','TIME IN')
+        self.attendance_tree.column('#0',width=0,stretch=NO)
+        self.attendance_tree.column('EMPLOYEE ID',width=cell_size,minwidth=mid_cell_size,anchor=W)
+        self.attendance_tree.column('FIRST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
+        self.attendance_tree.column('LAST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
+        self.attendance_tree.column('DATE',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
+        self.attendance_tree.column('TIME IN',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
 
+        self.attendance_tree.heading('#0',text='')
+        self.attendance_tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER)
+        self.attendance_tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER)
+        self.attendance_tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER)
+        self.attendance_tree.heading('DATE',text='SEX',anchor=CENTER)
+        self.attendance_tree.heading('TIME IN',text='SCHEDULE IN',anchor=CENTER)
+        
+        self.attendance_tree.insert(parent='',index='end',iid=0,text='', values=('1','2','3','4','5'))
+
+        self.attendance_tree.pack()
         # Query for getting the data with status
         self.c.execute('SELECT employee_id, first_name, last_name FROM employees')
-        data_row = 3
-        status_label_list = []
-        result = self.c.fetchall()
-        for item in result:
-            Label(attendance_header, text=item[0], pady=1, padx=40, width=10, bg='white').grid(row=data_row, column=1)
-            Label(attendance_header, text=item[1], padx=40, bg='white', width=10).grid(row=data_row, column=2)
-            Label(attendance_header, text=item[2], padx=40, bg='white', width=10).grid(row=data_row, column=3)
-
-
-            Button(attendance_header, text='Present', bg='#4aa96c').grid(row=data_row, column=5)
-            Button(attendance_header, text='Absent', bg='#fb3640').grid(row=data_row, column=6)
-            Button(attendance_header, text='Late', bg='#fea82f').grid(row=data_row, column=7)
-            data_row += 1
-
-        self.connection.commit()
+        
 
         # Save Button
-        Button(attendance_header, text='Save', bg='#3edbf0', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).grid(row=data_row + 1, column=4, pady=10)
+        # Button(attendance_header, text='Save', bg='#3edbf0', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).grid(row=data_row + 1, column=4, pady=10)
 
         # Cancel Button
-        Button(attendance_header, text='Cancel', bg='#ff79cd', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).grid(row= data_row+1, column=3, pady=10)
+        Button(attendance_page, text='Cancel', bg='#ff79cd', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).pack()
 
         # Check if the User Manually Exit Window
         attendance_page.protocol("WM_DELETE_WINDOW", lambda: root_page.deiconify())
