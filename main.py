@@ -718,27 +718,37 @@ class Main:
         self.attendance_tree = ttk.Treeview(table_frame,selectmode=BROWSE,yscrollcommand=scrollbary.set,height=15)
         scrollbary.config(command=self.attendance_tree.yview)
         scrollbary.pack(side=RIGHT, fill=Y)
-        self.attendance_tree['columns'] = ('EMPLOYEE ID', 'FIRST NAME', 'LAST NAME', 'DATE','TIME IN')
+        self.attendance_tree['columns'] = ('EMPLOYEE ID', 'FIRST NAME', 'LAST NAME', 'DATE','TIME IN','STATUS')
         self.attendance_tree.column('#0',width=0,stretch=NO)
         self.attendance_tree.column('EMPLOYEE ID',width=cell_size,minwidth=mid_cell_size,anchor=W)
         self.attendance_tree.column('FIRST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
         self.attendance_tree.column('LAST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
         self.attendance_tree.column('DATE',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
         self.attendance_tree.column('TIME IN',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
+        self.attendance_tree.column('STATUS',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
 
         self.attendance_tree.heading('#0',text='')
         self.attendance_tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER)
         self.attendance_tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER)
         self.attendance_tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER)
-        self.attendance_tree.heading('DATE',text='SEX',anchor=CENTER)
-        self.attendance_tree.heading('TIME IN',text='SCHEDULE IN',anchor=CENTER)
-        
-        self.attendance_tree.insert(parent='',index='end',iid=0,text='', values=('1','2','3','4','5'))
+        self.attendance_tree.heading('DATE',text='DATE',anchor=CENTER)
+        self.attendance_tree.heading('TIME IN',text='TIME IN',anchor=CENTER)
+        self.attendance_tree.heading('STATUS',text='STATUS',anchor=CENTER)
+
+        # Query for getting the data with status
+        self.c.execute('''SELECT A.employee_id, first_name, last_name, attendance_date, time_in, status
+                        FROM employee_attendance A, employees B
+                        where A.employee_id = B.employee_id''')
+
+        records = self.c.fetchall()        
+        #insert data
+        count=0
+        for record in records:
+            self.attendance_tree.insert(parent='',index='end',iid=count,text='',
+            values=(record[0],record[1],record[2],record[3],record[4],record[5]))
+            count+=1
 
         self.attendance_tree.pack()
-        # Query for getting the data with status
-        self.c.execute('SELECT employee_id, first_name, last_name FROM employees')
-        
 
         # Save Button
         # Button(attendance_header, text='Save', bg='#3edbf0', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).grid(row=data_row + 1, column=4, pady=10)
