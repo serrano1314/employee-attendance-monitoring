@@ -87,6 +87,9 @@ class Main:
     def starting(self, root):
         global username, password
         # Creating frame to center widgets
+        login_img = PhotoImage(file='bts_biot/login_btn.png')
+        exit_img = PhotoImage(file='bts_biot/exit_btn.png')
+
         main_frame = Frame(root, bg='#FAF1E6')
         main_frame.pack()
 
@@ -104,11 +107,11 @@ class Main:
         password.grid(row=4, column=1)
 
         # Log in Button
-        login_button = Button(main_frame, text='Login', width=10, bg='#E4EFE7', command=lambda: [self.menu(root)])
+        login_button = Button(main_frame, image=login_img, border=0, bg='#FAF1E6', command=lambda: [self.menu(root)])
         login_button.grid(row=5, column=1, pady=(20, 10))
 
         # Exit Button
-        exit_button = Button(main_frame, text='Exit ', width=10,  bg='#E4EFE7', command=lambda: [root.destroy(), self.connection.close()])
+        exit_button = Button(main_frame, image=exit_img, border=0,  bg='#FAF1E6', command=lambda: [root.destroy(), self.connection.close()])
         exit_button.grid(row=6, column=1, pady=(10, 20))
         root.mainloop()
 
@@ -145,7 +148,7 @@ class Main:
                 button_w=15
 
                 # Logo
-                Label(menu_frame, image=self.app_logo, bg='#FAF1E6').grid(row=1, column=3, pady=20, padx=20)
+                Label(menu_frame, image=self.app_logo, bg='#FAF1E6').grid(row=1, column=3, rowspan=2, pady=20, padx=20)
 
                 # Add Button
                 Button(menu_frame, text='Add Record', bg='#FFC9C9', font=FONT, width=button_w, height=button_h, command=lambda: [menu_page.withdraw(), self.add_record(menu_page)]).grid(row=1, column=1, pady=20, padx=20)
