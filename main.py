@@ -19,6 +19,7 @@ class Main:
         root.title('Student Attendance Monitoring System')
         root.geometry(WINDOW_SIZE)
         root.config(bg=BGCOLOR)
+        root.resizable(False, False)
 
         # Employee Information Initialization
         self.employee_id = ''
@@ -642,6 +643,7 @@ class Main:
             record_tree = self.tree.selection()[0]
         except:
             messagebox.showinfo('Invalid', 'Please Select a Row in the Table First')
+            return
         
         record = self.tree.item(record_tree)
         id = record['values'][0]
@@ -708,6 +710,7 @@ class Main:
             record_tree = self.tree.selection()[0]
         except:
             messagebox.showinfo('Invalid', 'Please Select a Row in the Table First')
+            return
 
         record = self.tree.item(record_tree)
         id = record['values'][0]
