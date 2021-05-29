@@ -86,32 +86,35 @@ class Main:
     def starting(self, root):
         global username, password
         # Creating frame to center widgets
+        login_bg = ImageTk.PhotoImage(Image.open('bg/login_bg.png').resize((1000, 580), Image.ANTIALIAS))
         login_img = ImageTk.PhotoImage(Image.open('bts_biot/login_btn.png').resize((80, 30), Image.ANTIALIAS))
         exit_img = ImageTk.PhotoImage(Image.open('bts_biot/exit_btn.png').resize((80, 30), Image.ANTIALIAS))
+        login_bg_lbl = Label(root,image=login_bg)
+        login_bg_lbl.place(x=0,y=0)
+        main_frame = Frame(root)
+        # main_frame.pack()
 
-        main_frame = Frame(root, bg=BGCOLOR)
-        main_frame.pack()
-
+        
         # Application Logo
-        Label(main_frame, image=self.app_logo, bg=BGCOLOR).grid(row=0, column=1,pady=(50,0))
+        # Label(main_frame, image=self.app_logo, bg=BGCOLOR).grid(row=0, column=1,pady=(50,0))
 
         # User name Entry
-        Label(main_frame, text='Username/ID', bg=BGCOLOR).grid(row=1, column=1, pady=(20, 10), padx=(50, 180))
-        username = Entry(main_frame, width=30, bd=1)
-        username.grid(row=2, column=1)
+        # Label(root, text='Username/ID', bg=BGCOLOR).grid(row=1, column=1, pady=(20, 10), padx=(50, 180))
+        username = Entry(root, width=30, bd=0)
+        username.pack(pady=(260,50))
 
         # Password Entry
-        Label(main_frame, text='Password', bg=BGCOLOR).grid(row=3, column=1,pady=(20, 10), padx=(50, 180))
-        password = Entry(main_frame, width=30, show="*")
-        password.grid(row=4, column=1)
+        # Label(root, text='Password', bg=BGCOLOR).grid(row=3, column=1,pady=(20, 10), padx=(50, 180))
+        password = Entry(root, width=30, show="*",bd=0)
+        password.pack(pady=(3,50))
 
         # Log in Button
-        login_button = Button(main_frame, image=login_img, border=0, bg=BGCOLOR, command=lambda: [self.menu(root)])
-        login_button.grid(row=5, column=1, pady=(20, 10))
+        login_button = Button(root, image=login_img, border=0, command=lambda: [self.menu(root)])
+        login_button.pack(pady=10)
 
         # Exit Button
-        exit_button = Button(main_frame, image=exit_img, border=0,  bg=BGCOLOR, command=lambda: [root.destroy(), self.connection.close()])
-        exit_button.grid(row=6, column=1, pady=(10, 20))
+        exit_button = Button(root, image=exit_img, border=0, command=lambda: [root.destroy(), self.connection.close()])
+        exit_button.pack()
 
         # Hover ek ek
         login_button.bind("<Enter>", self.enter)
@@ -279,7 +282,7 @@ class Main:
             self.connection.commit()
             messagebox.showinfo('INFORMATION', f'You are {attendance_status.title()} for today.')
         else:
-            messagebox.showerror('INFORMATION', 'You Already Time in Today')
+            messagebox.showinfo('INFORMATION', 'You Already Time in Today')
 
     def time_out_query(self, id):
         date = datetime.now()
@@ -292,7 +295,7 @@ class Main:
             self.connection.commit()
             messagebox.showinfo('INFORMATION', 'THANK YOU')
         else:
-            messagebox.showerror('INFORMATION', 'YOU ALREADY TIMED OUT OR NOT TIMED IN YET')
+            messagebox.showinfo('INFORMATION', 'YOU ALREADY TIMED OUT OR NOT TIMED IN YET')
 
     def employee_records(self, id):
         self.c.execute(f"SELECT * FROM employee_attendance WHERE employee_id = '{id}'")
