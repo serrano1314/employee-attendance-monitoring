@@ -118,7 +118,17 @@ class Main:
         login_button.bind("<Leave>", self.exit)
         exit_button.bind("<Enter>", self.enter)
         exit_button.bind("<Leave>", self.exit)
+
+        # pressing Enter key will trigger the menu function, same what login button does
+        global temp_root
+        temp_root=root
+        password.bind('<Return>',self.pressed_enter)
+        username.bind('<Return>',self.pressed_enter)
+        
         root.mainloop()
+
+    def pressed_enter(self,e):
+        self.menu(temp_root)
 
     def enter(self, e):
         e.widget['background'] = '#c8c2bc'
