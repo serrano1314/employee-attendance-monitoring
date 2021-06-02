@@ -63,9 +63,10 @@ def attendance_record(self, root_page, date):
     self.attendance_tree.heading('TIME OUT', text='TIME OUT', anchor=CENTER)
     # Query for getting the data with status
     if date == '':
-        self.c.execute(f'''SELECT A.employee_id, first_name, last_name, attendance_date, time_in, status, time_out
+        self.c.execute(f'''SELECT A.employee_id, first_name, last_name, attendance_date, time_in, status, time_out, A.oid
                     FROM employee_attendance A, employees B
-                    where A.employee_id = B.employee_id''')
+                    where A.employee_id = B.employee_id
+					ORDER BY A.oid DESC''')
     else:
         self.c.execute(f'''SELECT A.employee_id, first_name, last_name, attendance_date, time_in, status, time_out
                                 FROM employee_attendance A, employees B
