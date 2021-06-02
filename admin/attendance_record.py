@@ -85,7 +85,8 @@ def attendance_record(self, root_page, date):
     # Button(attendance_header, text='Save', bg='#3edbf0', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).grid(row=data_row + 1, column=4, pady=10)
 
     # Cancel Button
-    Button(attendance_page, text='Cancel', bg='#e4bad4', width=10, command=lambda: [attendance_page.destroy(), root_page.deiconify()]).pack()
+    back_btn=Button(attendance_page, image=self.back_img, bd=0, bg=BGCOLOR, command=lambda: [attendance_page.destroy(), root_page.deiconify()])
+    back_btn.place(x=990,y=525)
 
     # Check if the User Manually Exit Window
     attendance_page.protocol("WM_DELETE_WINDOW", lambda: [attendance_page.destroy(), root_page.deiconify()])

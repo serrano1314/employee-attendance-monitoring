@@ -170,12 +170,12 @@ def show_records(self, root_page):
 
     self.tree.pack()
 
-    edit_btn = Button(show_record_page,text="EDIT",command=lambda: edit_record(self,show_record_page),bg='#AAFE92')
-    edit_btn.place(x=935,y=525)
-    delete_btn=Button(show_record_page,text="DELETE",command=lambda: delete_query(self),bg='#FE9292')
-    delete_btn.place(x=980,y=525)
-    back_btn=Button(show_record_page, text='Go Back', bg='#e4bad4', width=10, command=lambda: [show_record_page.destroy(), root_page.deiconify()])
-    back_btn.place(x=50,y=525)
+    edit_btn = Button(show_record_page,image=self.edit_img,bd=0,bg=BGCOLOR,command=lambda: edit_record(self,show_record_page))
+    edit_btn.place(x=50,y=525)
+    delete_btn=Button(show_record_page,image=self.delete_img,bd=0,bg=BGCOLOR,command=lambda: delete_query(self))
+    delete_btn.place(x=160,y=525)
+    back_btn=Button(show_record_page, image=self.back_img, bd=0, bg=BGCOLOR, command=lambda: [show_record_page.destroy(), root_page.deiconify()])
+    back_btn.place(x=990,y=525)
 
     # check if user Exit the Window Manually
     show_record_page.protocol("WM_DELETE_WINDOW", lambda: [show_record_page.destroy(), root_page.deiconify()])
