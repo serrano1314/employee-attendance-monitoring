@@ -2,7 +2,6 @@
 from admin.show_record import *
 from admin.attendance_record import *
 from admin.add_record import *
-from config_var import *
 
 from sqlite3.dbapi2 import Row
 from tkinter import *
@@ -12,6 +11,7 @@ from datetime import datetime, date
 import sqlite3
 import re
 
+from config_var import *
 
 class Main:
     def __init__(self):
@@ -80,7 +80,7 @@ class Main:
             pass
 
         # App Logo
-        self.app_logo = ImageTk.PhotoImage(Image.open('1622028910602.png').resize((180, 180), Image.ANTIALIAS))
+        self.app_logo = ImageTk.PhotoImage(Image.open('logo.png').resize((180, 180), Image.ANTIALIAS))
 
         # Opening root window
         self.starting(root)
@@ -170,11 +170,11 @@ class Main:
                 time_label.grid(row=0, column=1, columnspan=3, pady=20)
                 self.current_time(time_label)
 
-                button_h=60
+                button_h=110
                 button_w=250
 
                 # Logo
-                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=3,padx=(50,0),pady=(50,0))
+                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=2 ,padx=(50,0),pady=(50,0))
 
                 # Add Button
                 add_record_img = ImageTk.PhotoImage(Image.open("btn/add_record_btn.png").resize((button_w, button_h), Image.ANTIALIAS))
@@ -184,20 +184,20 @@ class Main:
                 # View Report Button
                 view_report_img = ImageTk.PhotoImage(Image.open('btn/view_report_btn.png').resize((button_w, button_h), Image.ANTIALIAS))
                 view_report_button = Button(menu_frame, image=view_report_img, bg=BGCOLOR, border=0)
-                view_report_button.grid(row=2, column=1, pady=2)
+                view_report_button.grid(row=1, column=2, pady=(50,2))
 
                 # View Record Button
                 view_record_img = ImageTk.PhotoImage(Image.open('btn/view_record_btn.png').resize((button_w, button_h), Image.ANTIALIAS))
                 view_button = Button(menu_frame, image=view_record_img, bg=BGCOLOR, border=0,command=lambda: [menu_page.withdraw(), show_records(self,menu_page)], relief=RAISED)
-                view_button.grid(row=3, column=1, pady=2)
+                view_button.grid(row=2, column=1, pady=2)
 
                 # Attendance
                 attendance_img = ImageTk.PhotoImage(Image.open('btn/attendance_btn.png').resize((button_w, button_h), Image.ANTIALIAS))
                 attendance_button = Button(menu_frame, image=attendance_img, bg=BGCOLOR, border=0, command=lambda: [attendance_record(self,menu_page, ""), menu_page.withdraw()])
-                attendance_button.grid(row=4, column=1, pady=2)
+                attendance_button.grid(row=2, column=2, pady=2)
 
                 # logout Button
-                Button(menu_frame, text='Log Out', bg='#e4bad4',command=lambda: [menu_page.destroy(), root.deiconify()]).grid(row=4, column=3, padx=(50,0),pady=20)
+                Button(menu_frame, text='Log Out', bg='#e4bad4',command=lambda: [menu_page.destroy(), root.deiconify()]).grid(row=2, column=3, padx=(50,0))
 
                 # check if the Exit th Window Manually
                 menu_page.protocol("WM_DELETE_WINDOW", lambda: [menu_page.destroy(), root.deiconify()])
