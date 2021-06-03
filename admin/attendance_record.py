@@ -27,7 +27,7 @@ def attendance_record(self, root_page, date):
     current_date.grid(row=1, column=4, padx=(0, 70))
 
     # Picked attendance date
-    Button(attendance_header, text='SET ATTENDANCE DATE', bg='#1eae98', command=lambda: [choose_date(self,attendance_page,root_page)]).grid(row=1, column=1)
+    Button(attendance_header, text='SET ATTENDANCE DATE', bg='#1BC26D', command=lambda: [choose_date(self,attendance_page,root_page)]).grid(row=1, column=1)
 
     # day and time today
     dates = Label(attendance_header, bg=BGCOLOR, font=FONT)
