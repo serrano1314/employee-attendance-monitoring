@@ -85,6 +85,10 @@ def edit_record(self,page):
     schedule_out_edit = Entry(edit_record_page, width=cell_size)
     schedule_out_edit.grid(row=8, column=table_col)
 
+    Label(edit_record_page, text="WORKING STATUS:",bg=BGCOLOR).grid(row=9, column=table_col - 1)
+    work_status_edit= Entry(edit_record_page, width=cell_size)
+    work_status_edit.grid(row=9, column=table_col)
+
 
 
     self.c.execute(f"SELECT * FROM employees WHERE employee_id = '{id}'")
@@ -98,10 +102,11 @@ def edit_record(self,page):
         sex_edit.insert(0, record[4])
         schedule_in_edit.insert(0, record[5])
         schedule_out_edit.insert(0, record[6])
+        work_status_edit.insert(0,record[7])
 
     
-    Button(edit_record_page,text="SAVE",width=15,command=lambda:update_query(self,edit_record_page,id),bg='#AAFE92').grid(row=9,column=table_col,pady=20)
-    Button(edit_record_page,text="CANCEL",width=15,command=lambda:edit_record_page.destroy(),bg='#e4bad4').grid(row=9,column=table_col-1,pady=20,padx=(35,0))
+    Button(edit_record_page,text="SAVE",width=15,command=lambda:update_query(self,edit_record_page,id),bg='#AAFE92').grid(row=10,column=table_col,pady=20)
+    Button(edit_record_page,text="CANCEL",width=15,command=lambda:edit_record_page.destroy(),bg='#e4bad4').grid(row=10,column=table_col-1,pady=20,padx=(35,0))
     edit_record_page.mainloop()
 
 def delete_query(self):
@@ -140,14 +145,15 @@ def show_records(self, root_page):
     self.tree = ttk.Treeview(show_record_frame,selectmode=BROWSE,yscrollcommand=scrollbary.set,height=20)
     scrollbary.config(command=self.tree.yview)
     scrollbary.pack(side=RIGHT, fill=Y)
-    self.tree['columns'] = ('EMPLOYEE ID', 'FIRST NAME', 'LAST NAME', 'SEX', 'SCHEDULE IN','SCHEDULE OUT')
+    self.tree['columns'] = ('EMPLOYEE ID', 'FIRST NAME', 'LAST NAME', 'SEX', 'SCHEDULE IN','SCHEDULE OUT','WORK STATUS')
     self.tree.column('#0',width=0,stretch=NO)
     self.tree.column('EMPLOYEE ID',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
     self.tree.column('FIRST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
     self.tree.column('LAST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
-    self.tree.column('SEX',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
+    self.tree.column('SEX',width=cell_size-50,minwidth=mid_cell_size,anchor=CENTER)
     self.tree.column('SCHEDULE IN',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
     self.tree.column('SCHEDULE OUT',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
+    self.tree.column('WORK STATUS',width=cell_size-50,minwidth=mid_cell_size,anchor=CENTER)
 
     self.tree.heading('#0',text='')
     self.tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER)
@@ -156,6 +162,7 @@ def show_records(self, root_page):
     self.tree.heading('SEX',text='SEX',anchor=CENTER)
     self.tree.heading('SCHEDULE IN',text='SCHEDULE IN',anchor=CENTER)
     self.tree.heading('SCHEDULE OUT',text='SCHEDULE OUT',anchor=CENTER)
+    self.tree.heading('WORK STATUS',text='STATUS',anchor=CENTER)
 
     
     #select all employees except for the admin
@@ -165,7 +172,7 @@ def show_records(self, root_page):
     count=0
     for record in records:
         self.tree.insert(parent='',index='end',iid=count,text='',
-        values=(record[0],record[2],record[3],record[4],record[5],record[6]))
+        values=(record[0],record[2],record[3],record[4],record[5],record[6],record[7]))
         count+=1
 
     self.tree.pack()

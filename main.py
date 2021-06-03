@@ -48,7 +48,8 @@ class Main:
                                 last_name text,
                                 sex text,
                                 schedule_in,
-                                schedule_out
+                                schedule_out,
+                                work_status text,
                                )""")
             self.connection.commit()
 
