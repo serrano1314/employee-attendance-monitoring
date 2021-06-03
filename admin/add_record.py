@@ -1,22 +1,27 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from PIL import ImageTk, Image
 
 from config_var import *
 
 def add_record(self, menu_page):
     # Create Window
     global morning, night
+    BGCOLOR='#ffffff'
     add_record_page = Toplevel()
     add_record_page.title('Add Record')
     add_record_page.geometry('600x580')
     add_record_page.config(bg=BGCOLOR)
     morning = StringVar()
     night = StringVar()
-    Label(add_record_page, height=3, width=400, bg=HEADER_COLOR, text='Add Record', font=FONT).pack(pady=(0, 10))
 
-    add_record_frame = Frame(add_record_page, bg=BGCOLOR)
-    add_record_frame.pack()
+    # Label(add_record_page, height=3, width=400, bg=HEADER_COLOR, text='Add Record', font=FONT).pack(pady=(0, 10))
+    add_record_bg_img = PhotoImage(file='bg/add_record_bg.png')
+    Label(add_record_page,image=add_record_bg_img).place(x=0,y=0)
+
+    add_record_frame = Frame(add_record_page,bg=BGCOLOR)
+    add_record_frame.pack(pady=(110,0))
 
     # Getting the Employee Id
     Label(add_record_frame, text='EMPLOYEE ID:', bg=BGCOLOR).grid(sticky='W', row=0, column=1, pady=(10, 0), padx=10)
@@ -49,7 +54,7 @@ def add_record(self, menu_page):
     Label(add_record_frame, text='SCHEDULE', bg=BGCOLOR, width=10).grid(row=5, column=2, pady=20, columnspan=2)
 
 
-    hr_options = ['1','2','3','4','5','6','7','8','9','11','12']
+    hr_options = ['01','02','03','04','05','06','07','08','09','11','12']
     min_options = ['00','15','30','45']
     period_options = ['AM','PM']
 
@@ -86,10 +91,10 @@ def add_record(self, menu_page):
 
 
     # Cancel Button
-    Button(add_record_frame, image=self.cancel_img, bd=0, bg=BGCOLOR, command=lambda: [add_record_page.destroy(), menu_page.deiconify()]).grid(row=8, column=1, pady=35)
+    Button(add_record_frame, image=self.cancel_img, bd=0, bg=BGCOLOR, command=lambda: [add_record_page.destroy(), menu_page.deiconify()]).grid(row=8, column=1, padx=(20,0), pady=(35,0))
 
     # Save Button
-    Button(add_record_frame, image=self.save_img, bd=0, bg=BGCOLOR, command=lambda: [adding_record(self,add_record_page, menu_page)]).grid(row=8, column=3, pady=35)
+    Button(add_record_frame, image=self.save_img, bd=0, bg=BGCOLOR, command=lambda: [adding_record(self,add_record_page, menu_page)]).grid(row=8, column=3, pady=(35,0))
 
     # check if user Exit the Window Manually
     add_record_page.protocol("WM_DELETE_WINDOW", lambda: [add_record_page.destroy(), menu_page.deiconify()])
@@ -117,22 +122,9 @@ def adding_record(self, adding_page, menu):
         messagebox.showerror('INVALID','Invalid Minute! \nMust contain only numbers')
         return
 
-    # if(not (self.schedule_in_min.get()<60 or self.schedule_in_min.get().isdecimal())):
-    #     messagebox.showerror('INVALID','Invalid Minute! \nMust contain only numbers and less than 60')
-    #     return
+    self.schedule_in = f'{self.schedule_in_hr.get()}:{self.schedule_in_min.get()} {self.in_period.get()}'
 
-    x=''
-    if(len(self.schedule_in_hr.get())==1):
-        x='0'
-
-    self.schedule_in = f'{x}{self.schedule_in_hr.get()}:{self.schedule_in_min.get()} {self.in_period.get()}'
-
-    x=''
-    if(len(self.schedule_out_hr.get())==1):
-        x='0'
-
-    self.schedule_out = f'{x}{self.schedule_out_hr.get()}:{self.schedule_out_min.get()} {self.out_period.get()}'
-      
+    self.schedule_out = f'{self.schedule_out_hr.get()}:{self.schedule_out_min.get()} {self.out_period.get()}'
 
     if unique_id(self,self.employee_id):
         self.c.execute(f"""INSERT INTO employees VALUES(
@@ -151,6 +143,13 @@ def adding_record(self, adding_page, menu):
         if(not response):
             adding_page.destroy()
             menu.deiconify()
+        
+        self.employee_id.delete(0,'end')
+        self.password.delete(0,'end')
+        self.first_name.delete(0,'end')
+        self.last_name.delete(0,'end')
+
+
     else:
         messagebox.showerror('Error', 'Student Id Already Exist or Invalid Input')
         
