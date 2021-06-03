@@ -24,34 +24,34 @@ def add_record(self, menu_page):
     add_record_frame.pack(pady=(110,0))
 
     # Getting the Employee Id
-    Label(add_record_frame, text='EMPLOYEE ID:', bg=BGCOLOR).grid(sticky='W', row=0, column=1, pady=(10, 0), padx=10)
+    Label(add_record_frame, text='EMPLOYEE ID:', bg=BGCOLOR).grid(sticky='W', row=0, column=1, padx=10)
     self.employee_id = Entry(add_record_frame, width=40)
     self.employee_id.grid(row=0, column=2, pady=(10, 0), columnspan=2)
 
     # Getting the password
-    Label(add_record_frame, text='PASSWORD: ', bg=BGCOLOR).grid(sticky='W',row=1, column=1, pady=(10, 0), padx=10)
+    Label(add_record_frame, text='PASSWORD: ', bg=BGCOLOR).grid(sticky='W',row=1, column=1, padx=10)
     self.password = Entry(add_record_frame, width=40)
     self.password.grid(row=1, column=2, pady=(10, 0), columnspan=2)
 
     # Getting the First Name
-    Label(add_record_frame, text='FIRST NAME: ', bg=BGCOLOR).grid(sticky='W',row=2, column=1, pady=(10, 0), padx=10)
+    Label(add_record_frame, text='FIRST NAME: ', bg=BGCOLOR).grid(sticky='W',row=2, column=1, padx=10)
     self.first_name = Entry(add_record_frame, width=40)
     self.first_name.grid(row=2, column=2, pady=(10, 0), columnspan=2)
 
     # Getting the Last Name
-    Label(add_record_frame, text='LAST NAME: ', bg=BGCOLOR).grid(sticky='W',row=3, column=1, pady=(10, 0), padx=10)
+    Label(add_record_frame, text='LAST NAME: ', bg=BGCOLOR).grid(sticky='W',row=3, column=1, padx=10)
     self.last_name = Entry(add_record_frame, width=40)
     self.last_name.grid(row=3, column=2, pady=(10, 0), columnspan=2)
 
     # Sex
     sex_options = ['MALE','FEMALE']
-    Label(add_record_frame, text='SEX: ', bg=BGCOLOR).grid(sticky='W',row=4, column=1, pady=(10, 0), padx=10)
+    Label(add_record_frame, text='SEX: ', bg=BGCOLOR).grid(sticky='W',row=4, column=1, padx=10)
     self.sex = ttk.Combobox(add_record_frame,value=sex_options,width=10,state="readonly",)
     self.sex.grid(sticky='W',row=4, column=2, pady=(10, 0), columnspan=2)
     self.sex.current(0)
 
     # Schedule
-    Label(add_record_frame, text='SCHEDULE', bg=BGCOLOR, width=10).grid(row=5, column=2, pady=20, columnspan=2)
+    Label(add_record_frame, text='SCHEDULE', bg=BGCOLOR, width=10).grid(row=5, column=1, pady=20, columnspan=3)
 
 
     hr_options = ['01','02','03','04','05','06','07','08','09','11','12']
@@ -60,7 +60,7 @@ def add_record(self, menu_page):
 
     # IN
     in_row = 6
-    Label(add_record_frame, text='IN:', bg=BGCOLOR).grid(sticky='W', row=in_row, column=1)
+    Label(add_record_frame, text='IN:', bg=BGCOLOR).grid(row=in_row, column=1)
     self.schedule_in_hr = ttk.Combobox(add_record_frame, value=hr_options, width=3,state="readonly",background='#ffffff')
     self.schedule_in_hr.current(0)
     self.schedule_in_hr.grid(row=in_row, column=2, sticky='W')
@@ -76,7 +76,7 @@ def add_record(self, menu_page):
 
     # Out
     out_row = in_row+1
-    Label(add_record_frame, text='OUT:', bg=BGCOLOR).grid(sticky='W', row=out_row, column=1,pady=10)
+    Label(add_record_frame, text='OUT:', bg=BGCOLOR).grid(row=out_row, column=1,pady=10)
     self.schedule_out_hr = ttk.Combobox(add_record_frame, value=hr_options, width=3,state="readonly")
     self.schedule_out_hr.current(0)
     self.schedule_out_hr.grid(row=out_row, column=2, sticky='W')
