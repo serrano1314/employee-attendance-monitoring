@@ -12,7 +12,8 @@ def update_query(self,edit_page,update_id):
             last_name = :last_name,
             sex = :sex,
             schedule_in = :schedule_in,
-            schedule_out = :schedule_out
+            schedule_out = :schedule_out,
+            work_status = :work_status
 
                 WHERE employee_id = :update_id''',
             {
@@ -23,6 +24,7 @@ def update_query(self,edit_page,update_id):
                 'sex': sex_edit.get(),
                 'schedule_in': schedule_in_edit.get(),
                 'schedule_out': schedule_out_edit.get(),
+                'work_status': work_status_edit.get(),
 
                 'update_id': update_id
             })
@@ -31,7 +33,8 @@ def update_query(self,edit_page,update_id):
         selected = self.tree.focus()
         self.tree.item(selected,text='',values=(employee_id_edit.get(),first_name_edit.get(),
                                                 last_name_edit.get(),sex_edit.get(),
-                                                schedule_in_edit.get(),schedule_out_edit.get()))
+                                                schedule_in_edit.get(),schedule_out_edit.get(),
+                                                work_status_edit.get()))
 
         self.connection.commit()
         print('success')
@@ -50,7 +53,7 @@ def edit_record(self,page):
     table_col=3
     win_size='400x300'
     
-    global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit
+    global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit,work_status_edit
 
     edit_record_page = Tk()
     edit_record_page.title('EDIT EMPLOYEE RECORD')
@@ -127,6 +130,19 @@ def delete_query(self):
         self.c.execute(f"DELETE FROM employee_attendance WHERE employee_id = '{id}'")
         self.connection.commit()
 
+def treeview_sort_column(tv, col, reverse):
+    l = [(tv.set(k, col), k) for k in tv.get_children('')]
+    l.sort(reverse=reverse)
+
+    # rearrange items in sorted positions
+    for index, (val, k) in enumerate(l):
+        tv.move(k, '', index)
+
+    # reverse sort next time
+    tv.heading(col, command=lambda _col=col: treeview_sort_column(tv, _col, not reverse))
+
+
+
 def show_records(self, root_page):
     cell_size = 165
     mid_cell_size = 25
@@ -156,13 +172,13 @@ def show_records(self, root_page):
     self.tree.column('WORK STATUS',width=cell_size-50,minwidth=mid_cell_size,anchor=CENTER)
 
     self.tree.heading('#0',text='')
-    self.tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER)
-    self.tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER)
-    self.tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER)
-    self.tree.heading('SEX',text='SEX',anchor=CENTER)
-    self.tree.heading('SCHEDULE IN',text='SCHEDULE IN',anchor=CENTER)
-    self.tree.heading('SCHEDULE OUT',text='SCHEDULE OUT',anchor=CENTER)
-    self.tree.heading('WORK STATUS',text='STATUS',anchor=CENTER)
+    self.tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER,command=lambda _col='EMPLOYEE ID': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER,command=lambda _col='FIRST NAME': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER,command=lambda _col='LAST NAME': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SEX',text='SEX',anchor=CENTER,command=lambda _col='SEX': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SCHEDULE IN',text='SCHEDULE IN',anchor=CENTER,command=lambda _col='SCHEDULE IN': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SCHEDULE OUT',text='SCHEDULE OUT',anchor=CENTER,command=lambda _col='SCHEDULE OUT': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('WORK STATUS',text='STATUS',anchor=CENTER,command=lambda _col='WORK STATUS': treeview_sort_column(self.tree, _col, False))
 
     
     #select all employees except for the admin
