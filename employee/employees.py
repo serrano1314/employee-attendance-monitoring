@@ -111,7 +111,7 @@ def employee_records(self, id):
     employee_records_page.geometry('700x300')
     employee_records_page.config(bg=BGCOLOR)
 
-    Label(employee_records_page, width=400, height=2, bg=HEADER_COLOR, text='EMPLOYEE RECORDS').pack()
+    Label(employee_records_page, width=400, height=2, bg=HEADER_COLOR, text='EMPLOYEE RECORDS').pack(pady=(0,20))
     employee_records_frame = Frame(employee_records_page, bg=BGCOLOR)
     employee_records_frame.pack()
 
@@ -140,7 +140,7 @@ def employee_records(self, id):
         tree.insert(parent='', index='end', iid=row, text='', values=(data[1], data[2], data[3], data[4]))
         row += 1
 
-    tree.pack(pady=10)
+    tree.pack()
 
     Button(employee_records_page, bg=BGCOLOR, image=self.back_img,bd=0, command=employee_records_page.destroy).pack(padx=35,pady=(10,0),
                                                                                                           anchor='e')
