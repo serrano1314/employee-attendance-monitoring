@@ -306,6 +306,17 @@ class Main:
         time_label.config(text=date_time_now)
         time_label.after(200, self.current_time, time_label)
 
+    def treeview_sort_column(self,tv, col, reverse):
+        l = [(tv.set(k, col), k) for k in tv.get_children('')]
+        l.sort(reverse=reverse)
+
+        # rearrange items in sorted positions
+        for index, (val, k) in enumerate(l):
+            tv.move(k, '', index)
+
+        # reverse sort next time
+        tv.heading(col, command=lambda _col=col: self.treeview_sort_column(tv, _col, not reverse))
+
         
 if __name__ == '__main__':
     main = Main()

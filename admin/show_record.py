@@ -130,18 +130,6 @@ def delete_query(self):
         self.c.execute(f"DELETE FROM employee_attendance WHERE employee_id = '{id}'")
         self.connection.commit()
 
-def treeview_sort_column(tv, col, reverse):
-    l = [(tv.set(k, col), k) for k in tv.get_children('')]
-    l.sort(reverse=reverse)
-
-    # rearrange items in sorted positions
-    for index, (val, k) in enumerate(l):
-        tv.move(k, '', index)
-
-    # reverse sort next time
-    tv.heading(col, command=lambda _col=col: treeview_sort_column(tv, _col, not reverse))
-
-
 
 def show_records(self, root_page):
     cell_size = 165
@@ -172,13 +160,13 @@ def show_records(self, root_page):
     self.tree.column('WORK STATUS',width=cell_size-50,minwidth=mid_cell_size,anchor=CENTER)
 
     self.tree.heading('#0',text='')
-    self.tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER,command=lambda _col='EMPLOYEE ID': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER,command=lambda _col='FIRST NAME': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER,command=lambda _col='LAST NAME': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('SEX',text='SEX',anchor=CENTER,command=lambda _col='SEX': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('SCHEDULE IN',text='SCHEDULE IN',anchor=CENTER,command=lambda _col='SCHEDULE IN': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('SCHEDULE OUT',text='SCHEDULE OUT',anchor=CENTER,command=lambda _col='SCHEDULE OUT': treeview_sort_column(self.tree, _col, False))
-    self.tree.heading('WORK STATUS',text='STATUS',anchor=CENTER,command=lambda _col='WORK STATUS': treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER,command=lambda _col='EMPLOYEE ID': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER,command=lambda _col='FIRST NAME': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER,command=lambda _col='LAST NAME': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SEX',text='SEX',anchor=CENTER,command=lambda _col='SEX': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SCHEDULE IN',text='SCHEDULE IN',anchor=CENTER,command=lambda _col='SCHEDULE IN': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('SCHEDULE OUT',text='SCHEDULE OUT',anchor=CENTER,command=lambda _col='SCHEDULE OUT': self.treeview_sort_column(self.tree, _col, False))
+    self.tree.heading('WORK STATUS',text='STATUS',anchor=CENTER,command=lambda _col='WORK STATUS': self.treeview_sort_column(self.tree, _col, False))
 
     
     #select all employees except for the admin
