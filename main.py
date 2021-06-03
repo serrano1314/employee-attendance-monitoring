@@ -2,6 +2,7 @@
 from admin.show_record import *
 from admin.attendance_record import *
 from admin.add_record import *
+from admin.view_report import *
 from config_var import *
 from employee.employees import *
 from employee.time_in_out import *
@@ -195,7 +196,7 @@ class Main:
 
                 # View Report Button
                 view_report_img = ImageTk.PhotoImage(Image.open('btn/view_report_btn.png').resize((button_w, button_h), Image.ANTIALIAS))
-                view_report_button = Button(menu_frame, image=view_report_img, bg=BGCOLOR, border=0)
+                view_report_button = Button(menu_frame, image=view_report_img, bg=BGCOLOR, border=0,command=lambda: [menu_page.withdraw(), view_report(self,menu_page)])
                 view_report_button.grid(row=1, column=2, pady=(50,10), padx=10)
 
                 # View Record Button
