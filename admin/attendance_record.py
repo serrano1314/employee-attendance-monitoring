@@ -54,13 +54,13 @@ def attendance_record(self, root_page, date):
     self.attendance_tree.column('TIME OUT', width=cell_size, minwidth=mid_cell_size, anchor=CENTER)
 
     self.attendance_tree.heading('#0',text='')
-    self.attendance_tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER)
-    self.attendance_tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER)
-    self.attendance_tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER)
-    self.attendance_tree.heading('DATE',text='DATE',anchor=CENTER)
-    self.attendance_tree.heading('TIME IN',text='TIME IN',anchor=CENTER)
-    self.attendance_tree.heading('STATUS',text='STATUS',anchor=CENTER)
-    self.attendance_tree.heading('TIME OUT', text='TIME OUT', anchor=CENTER)
+    self.attendance_tree.heading('EMPLOYEE ID',text='EMPLOYEE ID',anchor=CENTER,command=lambda _col='EMPLOYEE ID': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('FIRST NAME',text='FIRST NAME',anchor=CENTER,command=lambda _col='FIRST NAME': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('LAST NAME',text='LAST NAME',anchor=CENTER,command=lambda _col='LAST NAME': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('DATE',text='DATE',anchor=CENTER,command=lambda _col='DATE': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('TIME IN',text='TIME IN',anchor=CENTER,command=lambda _col='TIME IN': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('STATUS',text='STATUS',anchor=CENTER,command=lambda _col='STATUS': self.treeview_sort_column(self.attendance_tree, _col, False))
+    self.attendance_tree.heading('TIME OUT', text='TIME OUT', anchor=CENTER,command=lambda _col='TIME OUT': self.treeview_sort_column(self.attendance_tree, _col, False))
     # Query for getting the data with status
     if date == '':
         self.c.execute(f'''SELECT A.employee_id, first_name, last_name, attendance_date, time_in, status, time_out, A.oid
