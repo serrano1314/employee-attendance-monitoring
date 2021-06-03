@@ -1,5 +1,6 @@
 from tkinter import *
 from config_var import *
+
 from tkinter import messagebox
 from tkinter import ttk
 
@@ -116,7 +117,7 @@ def employee_records(self, id):
 
     scrollbar = Scrollbar(employee_records_frame, orient=VERTICAL)
 
-    tree = ttk.Treeview(employee_records_frame, yscrollcommand=scrollbar.set, height=5)
+    tree = ttk.Treeview(employee_records_frame, yscrollcommand=scrollbar.set, height=7)
 
     scrollbar.config(command=tree.yview)
     scrollbar.pack(side=RIGHT, fill=Y)
@@ -141,6 +142,6 @@ def employee_records(self, id):
 
     tree.pack(pady=10)
 
-    Button(employee_records_frame, bg='#ff79cd', text='Back', command=employee_records_page.destroy).pack(pady=10,
-                                                                                                          anchor='w')
+    Button(employee_records_page, bg=BGCOLOR, image=self.back_img,bd=0, command=employee_records_page.destroy).pack(padx=35,pady=(10,0),
+                                                                                                          anchor='e')
     employee_records_page.mainloop()
