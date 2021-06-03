@@ -260,8 +260,8 @@ class Main:
         # Header
         Label(employee_menu_frame, text='WELCOME,', bg=BGCOLOR, font=FONT).grid(sticky='W', row=0, column=0,
                                                                                   columnspan=2)
-        Label(employee_menu_frame, text=content[2], bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=0, padx=5)
-        Label(employee_menu_frame, text=content[3], bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=1, padx=5,
+        Label(employee_menu_frame, text=content[2].upper(), bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=0, padx=(0,5))
+        Label(employee_menu_frame, text=content[3].upper(), bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=1, padx=5,
                                                                                   columnspan=2)
         Label(employee_menu_frame, text=f'YOUR SCHEDULE: {content[5]} to {content[6]}', bg=BGCOLOR,).grid(sticky='W', row=1, column=2, padx=5,
                                                                                   columnspan=2)
