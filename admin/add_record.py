@@ -7,14 +7,11 @@ from config_var import *
 
 def add_record(self, menu_page):
     # Create Window
-    global morning, night
     BGCOLOR='#ffffff'
     add_record_page = Toplevel()
     add_record_page.title('Add Record')
     add_record_page.geometry('600x580')
     add_record_page.config(bg=BGCOLOR)
-    morning = StringVar()
-    night = StringVar()
 
     # Label(add_record_page, height=3, width=400, bg=HEADER_COLOR, text='Add Record', font=FONT).pack(pady=(0, 10))
     add_record_bg_img = PhotoImage(file='bg/add_record_bg.png')
