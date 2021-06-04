@@ -51,7 +51,7 @@ def add_record(self, menu_page):
     Label(add_record_frame, text='SCHEDULE', bg=BGCOLOR, width=10).grid(row=5, column=1, pady=20, columnspan=3)
 
 
-    hr_options = ['01','02','03','04','05','06','07','08','09','11','12']
+    hr_options = ['01','02','03','04','05','06','07','08','09','10','11','12']
     min_options = ['00','15','30','45']
     period_options = ['AM','PM']
 
