@@ -20,10 +20,17 @@ class Main:
     def __init__(self):
         # Root window creation
         root = Tk()
+
+        ws = root.winfo_screenwidth() # width of the screen
+        hs = root.winfo_screenheight() # height of the screen
+        x = int((ws/2) - (app_w/2))
+        y = int((hs/2) - (app_h/2))
         root.title('Employee Attendance Monitoring System')
-        root.geometry(WINDOW_SIZE)
+        self.WINDOW_SIZE = f'{app_w}x{app_h}+{x}+{y}'
+        root.geometry(self.WINDOW_SIZE)
         root.config(bg=BGCOLOR)
         root.resizable(False, False)
+        
 
         # Employee Information Initialization
         self.employee_id = ''
@@ -102,7 +109,7 @@ class Main:
     def starting(self, root):
         global username, password
         # Creating frame to center widgets
-        login_bg = ImageTk.PhotoImage(Image.open('bg/login_bg.png').resize((1000, 580), Image.ANTIALIAS))
+        login_bg = ImageTk.PhotoImage(Image.open('bg/login_bg.png').resize((app_w, app_h), Image.ANTIALIAS))
         # login_img = ImageTk.PhotoImage(Image.open('bts_biot/login_btn.png').resize((80, 30), Image.ANTIALIAS))
         # exit_img = ImageTk.PhotoImage(Image.open('bts_biot/exit_btn.png').resize((80, 30), Image.ANTIALIAS))
         login_bg_lbl = Label(root,image=login_bg)
@@ -173,7 +180,7 @@ class Main:
                 menu_page = Toplevel()
                 menu_page.title('Employee Attendance Monitoring System')
                 menu_page.config(bg=BGCOLOR)
-                menu_page.geometry(WINDOW_SIZE)
+                menu_page.geometry(self.WINDOW_SIZE)
 
                 # CREATING FRAME TO CENTER WIDGETS
                 menu_frame = Frame(menu_page, bg=BGCOLOR)

@@ -132,13 +132,13 @@ def delete_query(self):
 
 
 def show_records(self, root_page):
-    cell_size = 165
+    cell_size = 150
     mid_cell_size = 25
     win_size='1100x620'
     th_font ='Arial 12 bold'
     show_record_page = Toplevel()
     show_record_page.title('SHOW RECORDS')
-    show_record_page.geometry(win_size)
+    show_record_page.geometry(self.WINDOW_SIZE)
     show_record_page.config(bg=BGCOLOR)
     show_record_frame=Frame(show_record_page,bg=BGCOLOR)
     show_record_frame.pack()
@@ -186,7 +186,7 @@ def show_records(self, root_page):
     delete_btn=Button(show_record_page,image=self.delete_img,bd=0,bg=BGCOLOR,command=lambda: delete_query(self))
     delete_btn.place(x=160,y=525)
     back_btn=Button(show_record_page, image=self.back_img, bd=0, bg=BGCOLOR, command=lambda: [show_record_page.destroy(), root_page.deiconify()])
-    back_btn.place(x=990,y=525)
+    back_btn.place(x=900,y=525)
 
     # check if user Exit the Window Manually
     show_record_page.protocol("WM_DELETE_WINDOW", lambda: [show_record_page.destroy(), root_page.deiconify()])

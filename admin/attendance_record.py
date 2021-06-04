@@ -7,10 +7,10 @@ def attendance_record(self, root_page, date):
     # Making attendance window
     attendance_page = Toplevel()
     attendance_page.title('Attendance')
-    attendance_page.geometry('1100x600')
+    attendance_page.geometry(self.WINDOW_SIZE)
     attendance_page.config(bg=BGCOLOR)
     th_font = 'Arial 12 bold'
-    cell_size = 150
+    cell_size = 135
     mid_cell_size = 25
     # Attendance Header
     Label(attendance_page, width=400, height=3, text='ATTENDANCE RECORD', bg=HEADER_COLOR, font=FONT).pack()
@@ -50,7 +50,7 @@ def attendance_record(self, root_page, date):
     self.attendance_tree.column('LAST NAME',width=cell_size,minwidth=mid_cell_size,anchor=W)
     self.attendance_tree.column('DATE',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
     self.attendance_tree.column('TIME IN',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
-    self.attendance_tree.column('STATUS',width=cell_size,minwidth=mid_cell_size,anchor=CENTER)
+    self.attendance_tree.column('STATUS',width=cell_size-10,minwidth=mid_cell_size,anchor=CENTER)
     self.attendance_tree.column('TIME OUT', width=cell_size, minwidth=mid_cell_size, anchor=CENTER)
 
     self.attendance_tree.heading('#0',text='')
@@ -87,7 +87,7 @@ def attendance_record(self, root_page, date):
 
     # Cancel Button
     back_btn=Button(attendance_page, image=self.back_img, bd=0, bg=BGCOLOR, command=lambda: [attendance_page.destroy(), root_page.deiconify()])
-    back_btn.place(x=990,y=525)
+    back_btn.place(x=900,y=525)
 
     # Check if the User Manually Exit Window
     attendance_page.protocol("WM_DELETE_WINDOW", lambda: [attendance_page.destroy(), root_page.deiconify()])
