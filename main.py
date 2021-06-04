@@ -181,14 +181,14 @@ class Main:
 
                 # Current Time Label
                 time_label = Label(menu_frame, bg=BGCOLOR,font=FONT)
-                time_label.grid(row=0, column=1, columnspan=3, pady=20)
+                time_label.grid(row=0, column=3, pady=20)
                 self.current_time(time_label)
 
                 button_h=110
                 button_w=250
 
                 # Logo
-                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=2,padx=(50,0),pady=(50,0))
+                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=2,pady=(50,0))
 
                 # Add Button
                 add_record_img = ImageTk.PhotoImage(Image.open("btn/add_record_btn.png").resize((button_w, button_h), Image.ANTIALIAS))

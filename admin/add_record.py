@@ -131,7 +131,8 @@ def adding_record(self, adding_page, menu):
         '{self.last_name.get()}',
         '{self.sex.get()}',
         '{self.schedule_in}',
-        '{self.schedule_out}'
+        '{self.schedule_out}',
+        'active'
         )""")
         # Apply Changes to the Database
         
@@ -140,6 +141,7 @@ def adding_record(self, adding_page, menu):
         if(not response):
             adding_page.destroy()
             menu.deiconify()
+            return
         
         self.employee_id.delete(0,'end')
         self.password.delete(0,'end')
