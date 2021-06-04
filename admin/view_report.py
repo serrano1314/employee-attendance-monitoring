@@ -35,7 +35,7 @@ def active_report_func(self,frame):
     plt.ylabel('NUMBER OF EMPLOYEES')
     plt.xlabel('WORK STATUS OF EMPLOYEE')
     plt.savefig('report_fig/active_report.png')
-
+    plt.close()
     self.report_fig = ImageTk.PhotoImage(Image.open('report_fig/active_report.png').resize((figure_w, figure_h), Image.ANTIALIAS))
     Label(frame,image=self.report_fig,bg=BGCOLOR).pack()
     return
@@ -48,7 +48,7 @@ def hearbeat_report_func(self,frame):
 def view_report(self,menu_page):
     view_report_page = Toplevel()
     view_report_page.title('Summary / Report')
-    view_report_page.geometry('1000x650')
+    view_report_page.geometry(self.WINDOW_SIZE)
     view_report_page.config(bg=BGCOLOR)
     view_report_frame = Frame(view_report_page,bg=BGCOLOR)
     view_report_frame.pack(pady=10)
@@ -75,4 +75,3 @@ def view_report(self,menu_page):
     back_btn=Button(view_report_page, image=self.back_img, bd=0, command=lambda: [view_report_page.destroy(), menu_page.deiconify()])
     back_btn.place(x=900,y=525)
     view_report_page.protocol("WM_DELETE_WINDOW", lambda: [view_report_page.destroy(), menu_page.deiconify()])
-    view_report_page.mainloop
