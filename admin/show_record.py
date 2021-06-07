@@ -51,13 +51,18 @@ def edit_record(self,page):
     id = record['values'][0]
     cell_size = 35
     table_col=3
-    win_size='400x300'
+    edit_page_w = 400
+    edit_page_h = 300
+    x = int((self.scr_w/2) - (edit_page_w/2))
+    y = int((self.scr_h/2) - (edit_page_h/2))
+    win_size=f'{edit_page_w}x{edit_page_h}+{x}+{y}'
     
     global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit,work_status_edit
 
     edit_record_page = Tk()
     edit_record_page.title('EDIT EMPLOYEE RECORD')
     edit_record_page.geometry(win_size)
+    edit_record_page.resizable(False,False)
     edit_record_page.config(bg=BGCOLOR)
 
     Label(edit_record_page,text="EMPLOYEE ID:",bg=BGCOLOR).grid(row=2,column=table_col-1,padx=10,pady=(40,0 ))
@@ -134,8 +139,6 @@ def delete_query(self):
 def show_records(self, root_page):
     cell_size = 150
     mid_cell_size = 25
-    win_size='1100x620'
-    th_font ='Arial 12 bold'
     show_record_page = Toplevel()
     show_record_page.title('SHOW RECORDS')
     show_record_page.geometry(self.WINDOW_SIZE)
@@ -171,7 +174,8 @@ def show_records(self, root_page):
     
     #select all employees except for the admin
     self.c.execute("SELECT * FROM employees WHERE employee_id  != 'admin'")
-    records = self.c.fetchall()        
+    records = self.c.fetchall()     
+    self.number_of_emp = len(records)
     #insert data
     count=0
     for record in records:

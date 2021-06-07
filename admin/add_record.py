@@ -10,7 +10,12 @@ def add_record(self, menu_page):
     BGCOLOR='#ffffff'
     add_record_page = Toplevel()
     add_record_page.title('Add Record')
-    add_record_page.geometry('600x580')
+    addrec_page_w = 600
+    addrec_page_h = 580
+    x = int((self.scr_w/2) - (addrec_page_w/2))
+    y = int((self.scr_h/2) - (addrec_page_h/2))
+    add_record_page.geometry(f'{addrec_page_w}x{addrec_page_h}+{x}+{y}')
+    add_record_page.resizable(False,False)
     add_record_page.config(bg=BGCOLOR)
 
     # Label(add_record_page, height=3, width=400, bg=HEADER_COLOR, text='Add Record', font=FONT).pack(pady=(0, 10))

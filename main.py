@@ -20,17 +20,18 @@ class Main:
     def __init__(self):
         # Root window creation
         root = Tk()
-
-        ws = root.winfo_screenwidth() # width of the screen
-        hs = root.winfo_screenheight() # height of the screen
-        x = int((ws/2) - (app_w/2))
-        y = int((hs/2) - (app_h/2))
         root.title('Employee Attendance Monitoring System')
+        
+        self.scr_w = root.winfo_screenwidth() # width of the screen
+        self.scr_h = root.winfo_screenheight() # height of the screen
+        x = int((self.scr_w/2) - (app_w/2))
+        y = int((self.scr_h/2) - (app_h/2))
         self.WINDOW_SIZE = f'{app_w}x{app_h}+{x}+{y}'
         root.geometry(self.WINDOW_SIZE)
+        
+        root.title('Employee Attendance Monitoring System')
         root.config(bg=BGCOLOR)
         root.resizable(False, False)
-        
 
         # Employee Information Initialization
         self.employee_id = ''
@@ -103,13 +104,14 @@ class Main:
         self.save_img = ImageTk.PhotoImage(Image.open("btn/save_btn.png").resize((btn_w, btn_h), Image.ANTIALIAS))
         self.back_img = ImageTk.PhotoImage(Image.open("btn/back_btn.png").resize((btn_h, btn_h), Image.ANTIALIAS))
 
+
         # Opening root window
         self.starting(root)
 
     def starting(self, root):
         global username, password
         # Creating frame to center widgets
-        login_bg = ImageTk.PhotoImage(Image.open('bg/login_bg.png').resize((app_w, app_h), Image.ANTIALIAS))
+        login_bg = ImageTk.PhotoImage(Image.open('bg/login_bg.png').resize((1000, 580), Image.ANTIALIAS))
         # login_img = ImageTk.PhotoImage(Image.open('bts_biot/login_btn.png').resize((80, 30), Image.ANTIALIAS))
         # exit_img = ImageTk.PhotoImage(Image.open('bts_biot/exit_btn.png').resize((80, 30), Image.ANTIALIAS))
         login_bg_lbl = Label(root,image=login_bg)
@@ -250,16 +252,22 @@ class Main:
         # Fetch employee profile
         self.c.execute(f"SELECT * FROM employees WHERE employee_id = '{id}'")
         content = self.c.fetchone()
-
         # Create Employee  Window
         employee_menu_page = Toplevel()
         employee_menu_page.title('Employee Attendance Monitoring System')
         employee_menu_page.config(bg=BGCOLOR)
-        employee_menu_page.geometry('600x400')
+        emp_page_w = 600
+        emp_page_h = 500
+        x = int((self.scr_w/2) - (emp_page_w/2))
+        y = int((self.scr_h/2) - (emp_page_h/2))
+        employee_menu_page.geometry(f'{emp_page_w}x{emp_page_h}+{x}+{y}')
         employee_menu_page.resizable(False, False)
 
-        button_h = 4
-        button_w = 15
+        time_in_img = ImageTk.PhotoImage(Image.open("btn/button_time-in.png").resize((200, 66), Image.ANTIALIAS))
+        time_out_img = ImageTk.PhotoImage(Image.open("btn/button_time-out.png").resize((200, 66), Image.ANTIALIAS))
+        view_record_img = ImageTk.PhotoImage(Image.open("btn/button_view-records.png").resize((150, 40), Image.ANTIALIAS))
+        edit_profile_img = ImageTk.PhotoImage(Image.open("btn/button_edit-profile.png").resize((150, 40), Image.ANTIALIAS))
+        change_pass_img = ImageTk.PhotoImage(Image.open("btn/button_change-password.png").resize((150, 40), Image.ANTIALIAS))
 
         Label(employee_menu_page, height=3, width=400, bg=HEADER_COLOR, text='EMPLOYEE', font=FONT).pack(pady=(0, 10))
 
@@ -269,39 +277,38 @@ class Main:
         # Header
         Label(employee_menu_frame, text='WELCOME,', bg=BGCOLOR, font=FONT).grid(sticky='W', row=0, column=0,
                                                                                   columnspan=2)
-        Label(employee_menu_frame, text=content[2].upper(), bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=0, padx=(0,5))
-        Label(employee_menu_frame, text=content[3].upper(), bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=1, padx=5,
-                                                                                  columnspan=2)
-        Label(employee_menu_frame, text=f'YOUR SCHEDULE: {content[5]} to {content[6]}', bg=BGCOLOR,).grid(sticky='W', row=1, column=2, padx=5,
+        Label(employee_menu_frame, text=f'{content[2].upper()} {content[3].upper()}', bg=BGCOLOR, font=FONT).grid(sticky='W', row=1, column=1, padx=(0,5))
+        
+        Label(employee_menu_frame, text=f'YOUR SCHEDULE: {content[5]} to {content[6]}', bg=BGCOLOR,).grid(sticky='W', row=2, column=0, pady=(5, 20),padx=5,
                                                                                   columnspan=2)
 
         # time and date today
         emp = Label(employee_menu_frame, bg=BGCOLOR, font=('Verdana', 10), width=40)
-        emp.grid(row=2, column=1, columnspan=2)
+        emp.grid(row=3, column=1, columnspan=2)
         self.current_time(emp)
 
         # time in button
-        Button(employee_menu_frame, text='TIME IN', width=button_w, height=button_h, bg='#a5e1ad',
-               font=('Verdana', 10),command=lambda: time_in_query(self, id)).grid(sticky='W', row=3, column=1, rowspan=2, pady=10, padx=20)
+        Button(employee_menu_frame, image=time_in_img, border=0, bg=BGCOLOR,
+               font=('Verdana', 10),command=lambda: time_in_query(self, id)).grid(sticky='W', row=4, column=1, rowspan=2, pady=10, padx=20)
 
         # time out button
-        Button(employee_menu_frame, text='TIME OUT', width=button_w, height=button_h, bg='#f29191',
-               font=('Verdana', 10), command=lambda: time_out_query(self, id)).grid(sticky='W', row=5, column=1, pady=10, rowspan=2, padx=20)
+        Button(employee_menu_frame, image=time_out_img,border=0, bg=BGCOLOR,
+               font=('Verdana', 10), command=lambda: time_out_query(self, id)).grid(sticky='W', row=6, column=1, pady=10, rowspan=2, padx=20)
 
         # View Records Button
-        Button(employee_menu_frame, text='VIEW RECORDS', bg='#c0fefc', width=20, command=lambda: employee_records(self, content[0])).grid(sticky='S', row=3, column=2,
+        Button(employee_menu_frame,image=view_record_img, bg=BGCOLOR, border=0, command=lambda: employee_records(self, content[0])).grid(sticky='S', row=4, column=2,
                                                                                       pady=10, padx=20)
 
         # Edit Profile Button
-        Button(employee_menu_frame, text='EDIT PROFILE', bg='#c0fefc', width=20,
-               command=lambda: [employee_menu_page.destroy(), edit_profile(self, content[0], root)]).grid(sticky='N', row=4, column=2,
+        Button(employee_menu_frame, image=edit_profile_img, bg=BGCOLOR, border=0,
+               command=lambda: [edit_profile(self, content[0], root,employee_menu_page)]).grid(sticky='N', row=5, column=2,
                                                                                          pady=10, padx=20)
 
         # Edit Password Button
-        Button(employee_menu_frame, text='CHANGE PASSWORD', bg='#c0fefc', width=20, command=lambda: edit_password(self, id)).grid(sticky='N', row=5, column=2,
+        Button(employee_menu_frame, image=change_pass_img, bg=BGCOLOR, border=0, command=lambda: edit_password(self, id,employee_menu_page)).grid(sticky='N', row=6, column=2,
                                                                                          pady=10, padx=20)
                                                                             
-        Button(employee_menu_frame, text='Log Out', bg='#e4bad4',command=lambda: [employee_menu_page.destroy(), root.deiconify()]).grid(row=6, column=2)
+        Button(employee_menu_frame, image=self.logout_img, bg=BGCOLOR,border=0, command=lambda: [employee_menu_page.destroy(), root.deiconify()]).grid(row=7, column=2)
         # check if the Exit th Window Manually
         employee_menu_page.protocol("WM_DELETE_WINDOW", lambda: [employee_menu_page.destroy(), root.deiconify()])
 
