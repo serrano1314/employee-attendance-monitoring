@@ -216,7 +216,7 @@ class Main:
 
                 # Attendance
                 attendance_img = ImageTk.PhotoImage(Image.open('btn/attendance_btn.png').resize((button_w, button_h), Image.ANTIALIAS))
-                attendance_button = Button(menu_frame, image=attendance_img, bg=BGCOLOR, border=0, command=lambda: [attendance_record(self,menu_page, ""), menu_page.withdraw()])
+                attendance_button = Button(menu_frame, image=attendance_img, bg=BGCOLOR, border=0, command=lambda: [attendance_record(self,menu_page, "", ""), menu_page.withdraw()])
                 attendance_button.grid(row=2, column=2, pady=2, padx=10)
 
                 # logout Button
@@ -322,6 +322,7 @@ class Main:
 
     def treeview_sort_column(self,tv, col, reverse):
         l = [(tv.set(k, col), k) for k in tv.get_children('')]
+        print('pasok')
         l.sort(reverse=reverse)
 
         # rearrange items in sorted positions
