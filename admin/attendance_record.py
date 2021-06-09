@@ -142,7 +142,8 @@ def choose_date(self,root ,root_root, name):
     day.insert(0, current_day)
 
     # Year
-    years_list = ['2010', '2011', '2012', '2013', '2014', '2015', '2016', '2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025', '2026', '2027', '2028', '2029', '2030', '2031', '2032', '2033', '2034', '2035', '2036', '2037', '2038', '2039', '2040', '2041', '2042', '2043', '2044', '2045', '2046', '2047', '2048', '2049', '2050']
+    years_list = [str(x) for x in range(2010, 2050+1)]
+    print(years_list)
     year = ttk.Combobox(date_frame, value=years_list, width=5)
     year.current(years_list.index(current_year))
     year.grid(row=1, column=2, padx=10, sticky='w')
