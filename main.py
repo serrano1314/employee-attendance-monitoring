@@ -322,7 +322,6 @@ class Main:
 
     def treeview_sort_column(self,tv, col, reverse):
         l = [(tv.set(k, col), k) for k in tv.get_children('')]
-        print('pasok')
         l.sort(reverse=reverse)
 
         # rearrange items in sorted positions
