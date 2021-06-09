@@ -16,6 +16,7 @@ figure_h = 300
 def monthly_report_func(event, self):
     cur_month_str = self.month_combo.get()
     cur_year_str = self.year_combo.get()
+    graph_type = self.gtype_combo.get()
     cur_month_num = datetime.strptime(cur_month_str,'%b').strftime('%B')
     dates_of_month = []
     x_dates_of_month = []
@@ -43,7 +44,12 @@ def monthly_report_func(event, self):
 
     fig = plt.figure()
     fig.patch.set_facecolor(BGCOLOR)
-    plt.bar(x_dates_of_month,y_atten_count)
+
+    if graph_type == 'bar':
+        plt.bar(x_dates_of_month,y_atten_count)
+    if graph_type == 'plot':
+        plt.plot(x_dates_of_month,y_atten_count,'.-')
+
     plt.ylim(top=num_of_emp)
     plt.xticks(rotation=65)
     plt.margins(0.01)
@@ -157,6 +163,7 @@ def view_report(self,menu_page):
     global month_option
     years_list = [str(x) for x in range(2010, 2050+1)]
     month_option = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+    g_type = ['bar','plot']
     cur_month = date.today().strftime('%b')
     self.cur_year = date.today().strftime('%Y')
     
@@ -166,14 +173,22 @@ def view_report(self,menu_page):
     
     self.year_combo = ttk.Combobox(monthly_report_frame, value=years_list, width=5,state="readonly")
     self.year_combo.current(years_list.index(self.cur_year))
+
+    self.gtype_combo = ttk.Combobox(monthly_report_frame, value=g_type, width=5,state="readonly")
+    self.gtype_combo.current(0)
+
     self.month_label = Label(monthly_report_frame)
     #call function to display immediatley, imidyetli, emidiatley, agad nalang
     monthly_report_func(self,self)
     self.month_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
     self.year_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
-    self.month_label.grid(row=0,column=0,columnspan=2)
-    self.month_combo.grid(row=1,column=0,sticky=E,padx=5)
-    self.year_combo.grid(row=1,column=1,sticky=W,padx=5)
+    self.gtype_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
+
+    self.month_label.grid(row=0,column=0,columnspan=3)
+    self.month_combo.grid(row=1,column=1,padx=5)
+    self.year_combo.grid(row=1,column=1,sticky=E,padx=5)
+    Label(monthly_report_frame,text="Graph Type: ",bg=BGCOLOR).grid(row=1,column=2)
+    self.gtype_combo.grid(row=1,column=2,sticky=E,padx=5)
     monthly_report_frame.grid(row=1,column=1,columnspan=2)
     
     ttk.Separator(new_frame,orient='horizontal').grid(row=2,column=1,columnspan=3,sticky=EW,pady=30)
