@@ -121,8 +121,8 @@ def view_report(self,menu_page):
 
 
 
-    back_btn=Button(new_frame, image=self.back_img, bd=0, bg=BGCOLOR,command=lambda: [view_report_page.destroy(), menu_page.deiconify()])
-    back_btn.grid(row=3, column=2, sticky='e')
+    back_btn=Button(view_report_frame, image=self.back_img, bd=0, bg=BGCOLOR,command=lambda: [view_report_page.destroy(), menu_page.deiconify()])
+    back_btn.place(x=900,y=500)
     view_report_page.protocol("WM_DELETE_WINDOW", lambda: [view_report_page.destroy(), menu_page.deiconify()])
 
 
