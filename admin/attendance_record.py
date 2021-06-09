@@ -143,7 +143,6 @@ def choose_date(self,root ,root_root, name):
 
     # Year
     years_list = [str(x) for x in range(2010, 2050+1)]
-    print(years_list)
     year = ttk.Combobox(date_frame, value=years_list, width=5)
     year.current(years_list.index(current_year))
     year.grid(row=1, column=2, padx=10, sticky='w')
