@@ -21,6 +21,8 @@ def monthly_report_func(event, self):
     dates_of_month = []
     x_dates_of_month = []
     y_atten_count = []
+    
+    # get the last date of the month
     last_day = monthrange(int(self.cur_year), month_option.index(cur_month_str)+1)[1]+1
 
     # loop for appending month and date
@@ -178,8 +180,10 @@ def view_report(self,menu_page):
     self.gtype_combo.current(0)
 
     self.month_label = Label(monthly_report_frame)
-    #call function to display immediatley, imidyetli, emidiatley, agad nalang
+
+    #call function to display graph immediatley, imidyetli, emidiatley, agad nalang
     monthly_report_func(self,self)
+
     self.month_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
     self.year_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
     self.gtype_combo.bind('<<ComboboxSelected>>',lambda event, s=self:monthly_report_func(event,s))
