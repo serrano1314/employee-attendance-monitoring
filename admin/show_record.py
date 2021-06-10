@@ -53,49 +53,56 @@ def edit_record(self):
     id = record['values'][0]
     cell_size = 35
     table_col=3
-    edit_page_w = 400
+    edit_page_w = 500
     edit_page_h = 300
     x = int((self.scr_w/2) - (edit_page_w/2))
     y = int((self.scr_h/2) - (edit_page_h/2))
     win_size=f'{edit_page_w}x{edit_page_h}+{x}+{y}'
     global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit,work_status_edit, hide
     hide = 1
-    edit_record_page = Tk()
+    edit_record_page = Toplevel()
     edit_record_page.title('EDIT EMPLOYEE RECORD')
     edit_record_page.geometry(win_size)
-    edit_record_page.resizable(False,False)
     edit_record_page.config(bg=BGCOLOR)
 
-    Label(edit_record_page,text="EMPLOYEE ID:",bg=BGCOLOR).grid(row=2,column=table_col-1,padx=10,pady=(40,0 ))
-    employee_id_edit=Entry(edit_record_page, width=cell_size)
+    edit_record_frame = Frame(edit_record_page,bg=BGCOLOR)
+    edit_record_frame.pack()
+
+    Label(edit_record_frame,text="EMPLOYEE ID:",bg=BGCOLOR).grid(row=2,column=table_col-1,padx=10,pady=(40,0 ))
+    employee_id_edit=Entry(edit_record_frame, width=cell_size)
     employee_id_edit.grid(row=2, column=table_col, pady=(40, 0))
 
-    Label(edit_record_page,text="PASSWORD:",bg=BGCOLOR).grid(row=3,column=table_col-1)
-    password_edit=Entry(edit_record_page, width=cell_size)
-    password_edit.grid(row=3, column=table_col)
+    Label(edit_record_frame,text="PASSWORD:",bg=BGCOLOR).grid(row=3,column=table_col-1)
+    password_edit=Entry(edit_record_frame, width=cell_size)
+    password_edit.grid(row=3, column=table_col,sticky=W)
+
+    password_edit['show'] = '•'
+
+    check_box = Checkbutton(edit_record_frame,command=lambda :hides(record[1], check_box),bg=BGCOLOR)
+    check_box.grid(row=3, column=table_col,sticky=E)
     
-    Label(edit_record_page,text="FIRST NAME:",bg=BGCOLOR).grid(row=4,column=table_col-1)
-    first_name_edit=Entry(edit_record_page, width=cell_size)
+    Label(edit_record_frame,text="FIRST NAME:",bg=BGCOLOR).grid(row=4,column=table_col-1)
+    first_name_edit=Entry(edit_record_frame, width=cell_size)
     first_name_edit.grid(row=4, column=table_col)
 
-    Label(edit_record_page,text="LAST NAME:",bg=BGCOLOR).grid(row=5,column=table_col-1)
-    last_name_edit=Entry(edit_record_page,width=cell_size)
+    Label(edit_record_frame,text="LAST NAME:",bg=BGCOLOR).grid(row=5,column=table_col-1)
+    last_name_edit=Entry(edit_record_frame,width=cell_size)
     last_name_edit.grid(row=5,column=table_col)
 
-    Label(edit_record_page,text="SEX:",bg=BGCOLOR).grid(row=6,column=table_col-1)
-    sex_edit=Entry(edit_record_page, width=cell_size)
+    Label(edit_record_frame,text="SEX:",bg=BGCOLOR).grid(row=6,column=table_col-1)
+    sex_edit=Entry(edit_record_frame, width=cell_size)
     sex_edit.grid(row=6, column=table_col)
 
-    Label(edit_record_page,text="SCHEDULE IN:",bg=BGCOLOR).grid(row=7,column=table_col-1)
-    schedule_in_edit=Entry(edit_record_page, width=cell_size)
+    Label(edit_record_frame,text="SCHEDULE IN:",bg=BGCOLOR).grid(row=7,column=table_col-1)
+    schedule_in_edit=Entry(edit_record_frame, width=cell_size)
     schedule_in_edit.grid(row=7, column=table_col)
 
-    Label(edit_record_page, text="SCHEDULE OUT:",bg=BGCOLOR).grid(row=8, column=table_col - 1)
-    schedule_out_edit = Entry(edit_record_page, width=cell_size)
+    Label(edit_record_frame, text="SCHEDULE OUT:",bg=BGCOLOR).grid(row=8, column=table_col - 1)
+    schedule_out_edit = Entry(edit_record_frame, width=cell_size)
     schedule_out_edit.grid(row=8, column=table_col)
 
-    Label(edit_record_page, text="WORKING STATUS:",bg=BGCOLOR).grid(row=9, column=table_col - 1)
-    work_status_edit= Entry(edit_record_page, width=cell_size)
+    Label(edit_record_frame, text="WORKING STATUS:",bg=BGCOLOR).grid(row=9, column=table_col - 1)
+    work_status_edit= Entry(edit_record_frame, width=cell_size)
     work_status_edit.grid(row=9, column=table_col)
 
 
@@ -112,28 +119,18 @@ def edit_record(self):
         schedule_out_edit.insert(0, record[6])
         work_status_edit.insert(0,record[7])
 
-    password_edit['show'] = '*'
-
-    check_box = Button(edit_record_page, text='✓', relief=SUNKEN, width=1, bg=BGCOLOR,command=lambda :hides(record[1], check_box))
-    check_box.grid(row=10, column=table_col+1, pady=5)
-    Label(edit_record_page, text='Hide Password', bg=BGCOLOR).grid(row=10, column=table_col, sticky='e')
-
-    Button(edit_record_page,text="SAVE",width=15,command=lambda :update_query(self,edit_record_page,id),bg='#AAFE92').grid(row=11,column=table_col,pady=10)
-    Button(edit_record_page,text="CANCEL",width=15,command=lambda:edit_record_page.destroy(),bg='#e4bad4').grid(row=11,column=table_col-1,pady=10,padx=(35,0))
-
-    edit_record_page.mainloop()
-
+    
+    Button(edit_record_frame,image=self.cancel_img,bd=0,command=lambda:edit_record_page.destroy(),bg=BGCOLOR).grid(row=11,column=table_col-1,pady=20,padx=(40,0))
+    Button(edit_record_frame,image=self.save_img,bd=0,command=lambda :update_query(self,edit_record_page,id),bg=BGCOLOR).grid(row=11,column=table_col,pady=20,padx=(20,0))
 
 def hides(password, checkbox):
     global hide
     if hide == 1:
         password_edit['show'] = password
         hide= 0
-        checkbox.config(text='')
     else:
-        password_edit['show'] = '*'
+        password_edit['show'] = '•'
         hide = 1
-        checkbox.config(text='✓')
 
 def delete_query(self):
     try:

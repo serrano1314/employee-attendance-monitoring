@@ -130,7 +130,7 @@ class Main:
 
         # Password Entry
         # Label(root, text='Password', bg=BGCOLOR).grid(row=3, column=1,pady=(20, 10), padx=(50, 180))
-        password = Entry(root, width=30, show="*",bd=0)
+        password = Entry(root, width=30, show="•",bd=0)
         password.pack(pady=(0,30))
 
         # Log in Button
@@ -140,12 +140,6 @@ class Main:
         # Exit Button
         exit_button = Button(root, image=self.exit_img, border=0,bg='#FFFFFF', command=lambda: [root.destroy(), self.connection.close()])
         exit_button.pack()
-
-        # Hover ek ek
-        login_button.bind("<Enter>", self.enter)
-        login_button.bind("<Leave>", self.exit)
-        exit_button.bind("<Enter>", self.enter)
-        exit_button.bind("<Leave>", self.exit)
 
         # pressing Enter key will trigger the menu function, same what login button does
         global temp_root
@@ -190,14 +184,14 @@ class Main:
 
                 # Current Time Label
                 time_label = Label(menu_frame, bg=BGCOLOR,font=FONT)
-                time_label.grid(row=0, column=3, pady=20)
+                time_label.grid(row=0, column=3, pady=(20,65))
                 self.current_time(time_label)
 
                 button_h=110
                 button_w=250
 
                 # Logo
-                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=2,pady=(50,0))
+                Label(menu_frame, image=self.app_logo, bg=BGCOLOR).grid(row=1, column=3, rowspan=2)
 
                 # Add Button
                 add_record_img = ImageTk.PhotoImage(Image.open("btn/add_record_btn.png").resize((button_w, button_h), Image.ANTIALIAS))
@@ -220,7 +214,7 @@ class Main:
                 attendance_button.grid(row=2, column=2, pady=2, padx=10)
 
                 # logout Button
-                Button(menu_frame, image=self.logout_img, bg=BGCOLOR,bd=0,command=lambda: [menu_page.destroy(), root.deiconify()]).grid(row=3, column=1,padx=10,pady=20,sticky=W)
+                Button(menu_frame, image=self.logout_img, bg=BGCOLOR,bd=0,command=lambda: [menu_page.destroy(), root.deiconify()]).grid(row=2, column=3,padx=10,sticky=S)
 
                 # check if the Exit th Window Manually
                 menu_page.protocol("WM_DELETE_WINDOW", lambda: [menu_page.destroy(), root.deiconify()])

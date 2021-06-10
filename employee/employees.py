@@ -53,9 +53,6 @@ def edit_profile(self, id, root, parent_window):
     Button(edit, image=self.cancel_img, border=0, bg=BGCOLOR,
            command=lambda: [edit_profile.destroy()]).grid(row=3, column=1, pady=20)
 
-    # check if the Exit th Window Manually
-    edit_profile.protocol("WM_DELETE_WINDOW", lambda: [edit_profile.destroy(), self.employee_page(root, id)])
-
 
 def edit_profile_query(self, data):
     # edit profile query

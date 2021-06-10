@@ -41,7 +41,7 @@ def monthly_report_func(event, self):
         """)
         y_atten_count.append(self.c.fetchone()[0])
     
-    self.c.execute("SELECT * FROM employees WHERE employee_id  != 'admin'")
+    self.c.execute("SELECT * FROM employees")
     num_of_emp = len(self.c.fetchall())
 
     fig = plt.figure()
@@ -51,13 +51,14 @@ def monthly_report_func(event, self):
         plt.bar(x_dates_of_month,y_atten_count)
     if graph_type == 'plot':
         plt.plot(x_dates_of_month,y_atten_count,'.-')
+        plt.fill_between(x_dates_of_month, y_atten_count, color='#539ecd')
 
     plt.ylim(top=num_of_emp)
     plt.xticks(rotation=65)
     plt.margins(0.01)
-    # plt.title('Monthly Attendance Report')
+    plt.title(f'Monthly Attendance Report for {cur_month_num.upper()} {cur_year_str.upper()}')
     plt.ylabel('NUMBER OF ATTENDANCE')
-    plt.xlabel(f'DATE OF MONTH FOR {cur_month_num.upper()} {cur_year_str.upper()}',labelpad=5)
+    plt.xlabel(f'DATE',labelpad=5)
     plt.savefig('report_fig/monthly_report.png')
     plt.close()
 
@@ -67,12 +68,12 @@ def monthly_report_func(event, self):
     self.monthly_fig = ImageTk.PhotoImage(Image.open('report_fig/monthly_report.png').resize((600, 430), Image.ANTIALIAS))
     self.month_label.config(image=self.monthly_fig)
 
-def gender_report_func(self,frame):
+def gender_percentage_func(self,frame):
     gender_num = []
-    self.c.execute("SELECT * FROM employees WHERE sex = 'MALE'")
+    self.c.execute("SELECT * FROM employees WHERE sex = 'MALE' AND work_status = 'active'")
     gender = ['MALE', 'FEMALE']
     gender_num.append(len(self.c.fetchall()))
-    self.c.execute("SELECT * FROM employees WHERE sex = 'FEMALE'")
+    self.c.execute("SELECT * FROM employees WHERE sex = 'FEMALE' AND work_status = 'active'")
     gender_num.append(len(self.c.fetchall()))
     graph = plt.pie(gender_num,labels=gender,autopct='%1.2f%%')
     # graph[0].set_color('#2940d3')
@@ -80,12 +81,32 @@ def gender_report_func(self,frame):
     plt.title('Gender Distribution')
     # plt.xlabel('Gender')
     # plt.ylabel('Number of Employees')
+    plt.savefig("report_fig/gender_percetage.png")
+    plt.close()
+
+    self.gender_report_img = ImageTk.PhotoImage(Image.open("report_fig/gender_percetage.png").resize((figure_w, figure_h), Image.ANTIALIAS))
+    Label(frame,image=self.gender_report_img,bg=BGCOLOR).pack()
+    
+def gender_report_func(self,frame):
+    gender_num = []
+    self.c.execute("SELECT * FROM employees WHERE sex = 'MALE' AND work_status = 'active'")
+    gender = ['MALE', 'FEMALE']
+    gender_num.append(len(self.c.fetchall()))
+    self.c.execute("SELECT * FROM employees WHERE sex = 'FEMALE' AND work_status = 'active'")
+    gender_num.append(len(self.c.fetchall()))
+    graph = plt.bar(gender,gender_num)
+    graph[0].set_color('#2940d3')
+    graph[1].set_color('#ff96ad')
+    plt.title('Gender Distribution')
+    plt.xlabel('Gender')
+    plt.ylabel('Number of Active Employees')
     plt.savefig("report_fig/gender_graph.png")
     plt.close()
 
-    self.gender_report_img = ImageTk.PhotoImage(Image.open('report_fig/gender_graph.png').resize((figure_w, figure_h), Image.ANTIALIAS))
-    Label(frame,image=self.gender_report_img,bg=BGCOLOR).pack()
+    self.gender_percentage_img = ImageTk.PhotoImage(Image.open('report_fig/gender_graph.png').resize((figure_w, figure_h), Image.ANTIALIAS))
+    Label(frame,image=self.gender_percentage_img,bg=BGCOLOR).pack()
     
+
 
 def active_report_func(self,frame):
 
@@ -102,7 +123,7 @@ def active_report_func(self,frame):
     barlist[0].set_color('#00ff5e')   
     barlist[1].set_color('#fd085b')
     
-    # plt.title('ACTIVE AND INACTIVE EMPLOYEES')
+    plt.title('Active and Inactive Employees')
     plt.ylabel('NUMBER OF EMPLOYEES')
     plt.xlabel('WORK STATUS OF EMPLOYEE')
     plt.savefig('report_fig/active_report.png')
@@ -121,9 +142,9 @@ def hearbeat_report_func(self,frame):
         y_per_month_count.append(len(self.c.fetchall()))
 
     plt.bar(x_months,y_per_month_count)
-    # plt.title('Current Year Attendance Report')
+    plt.title('Current Year Attendance Report')
     plt.ylabel('NUMBER OF EMPLOYEES')
-    plt.xlabel('Month')
+    plt.xlabel('MONTH')
     plt.savefig('report_fig/hearbeat_report.png')
     plt.close()
 
@@ -163,13 +184,14 @@ def view_report(self,menu_page):
     # I use LabelFrame just to see the division of contents, maybe change into Frame later
 
     global month_option
-    years_list = [str(x) for x in range(2010, 2050+1)]
+    self.cur_year = date.today().strftime('%Y')
+    years_list = [str(x) for x in range(2010, int(self.cur_year)+1)]
     month_option = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
     g_type = ['bar','plot']
     cur_month = date.today().strftime('%b')
-    self.cur_year = date.today().strftime('%Y')
     
-    monthly_report_frame=LabelFrame(new_frame,text="MONTHLY ATTENDACE REPORT",bg=BGCOLOR,pady=frame_h,padx=frame_w)
+    #interactive monthly report
+    monthly_report_frame=LabelFrame(new_frame,bg=BGCOLOR,pady=frame_h,padx=frame_w)
     self.month_combo = ttk.Combobox(monthly_report_frame, value=month_option, width=5,state="readonly")
     self.month_combo.current(month_option.index(cur_month))
     
@@ -191,33 +213,43 @@ def view_report(self,menu_page):
     self.month_label.grid(row=0,column=0,columnspan=3)
     self.month_combo.grid(row=1,column=1,padx=5)
     self.year_combo.grid(row=1,column=1,sticky=E,padx=5)
-    Label(monthly_report_frame,text="Graph Type: ",bg=BGCOLOR).grid(row=1,column=2)
-    self.gtype_combo.grid(row=1,column=2,sticky=E,padx=5)
+    Label(monthly_report_frame,text="Graph View: ",bg=BGCOLOR).grid(row=1,column=2,sticky=W,padx=(25,0))
+    self.gtype_combo.grid(row=1,column=2,padx=5)
     monthly_report_frame.grid(row=1,column=1,columnspan=2)
     
     ttk.Separator(new_frame,orient='horizontal').grid(row=2,column=1,columnspan=3,sticky=EW,pady=30)
     Label(new_frame,text=" OTHER REPORT ",bg=BGCOLOR,font='Verdana, 12').grid(row=2,column=1,columnspan=3)
 
-    #frame from active and inactive report, edit the active_report_func function for the content
+    # inactive report
     fig = plt.figure()
     fig.patch.set_facecolor(BGCOLOR)
-    active_report_frame=LabelFrame(new_frame,text='ACTIVE AND INACTIVE REPORT',bg=BGCOLOR,pady=frame_w,padx=frame_h)
+    active_report_frame=LabelFrame(new_frame,bg=BGCOLOR,pady=frame_w,padx=frame_h)
     active_report_func(self,active_report_frame)
     active_report_frame.grid(row=3,column=1, padx=10)
 
+    
+    #current year attendace graph
     fig = plt.figure()
     fig.patch.set_facecolor(BGCOLOR)
-    #frame attendace graph, edit the hearbeat_report_func function for the content
-    hearbeat_report_frame=LabelFrame(new_frame,text='CURRENT YEAR ATTENDANCE REPORT',bg=BGCOLOR,pady=frame_h,padx=frame_w)
+    hearbeat_report_frame=LabelFrame(new_frame,bg=BGCOLOR,pady=frame_h,padx=frame_w)
     hearbeat_report_func(self,hearbeat_report_frame)
     hearbeat_report_frame.grid(row=3,column=2, padx=10)
 
+    #gender percentage
     fig = plt.figure()
     fig.patch.set_facecolor(BGCOLOR)
-    #frame from gender report, edit the gender_report_func function for the content
-    gender_report_frame=LabelFrame(new_frame,text="GENDER REPORT",bg=BGCOLOR,pady=frame_h,padx=frame_w)
+    gender_percentage_frame=LabelFrame(new_frame,bg=BGCOLOR,pady=frame_h,padx=frame_w)
+    gender_percentage_func(self,gender_percentage_frame)
+    gender_percentage_frame.grid(row=4,column=1,pady=20)
+    
+    #gender count report
+    fig = plt.figure()
+    fig.patch.set_facecolor(BGCOLOR)
+    gender_report_frame=LabelFrame(new_frame,bg=BGCOLOR,pady=frame_h,padx=frame_w)
     gender_report_func(self,gender_report_frame)
-    gender_report_frame.grid(row=4,column=1,columnspan=2)
+    gender_report_frame.grid(row=4,column=2,pady=20)
+
+    
 
     back_btn=Button(view_report_frame, image=self.back_img, bd=0, bg=BGCOLOR,command=lambda: [view_report_page.destroy(), menu_page.deiconify()])
     back_btn.place(x=900,y=450)

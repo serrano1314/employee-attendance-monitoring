@@ -6,7 +6,7 @@ def time_in_query(self, id):
     date_time_now = datetime.now()
     date_now = date_time_now.strftime('%b-%d-%Y')
     time_now = date_time_now.time()
-    answer = messagebox.askyesno(f'{date_time_now.strftime("%H:%M %p")}', 'You Want to TIME IN?')
+    answer = messagebox.askyesno('TIME IN', f'You are about to TIME IN now {date_time_now.strftime("%H:%M %p")} ?')
     if answer:
         # check if the user already time in today
         self.c.execute(f"SELECT time_in FROM employee_attendance WHERE employee_id = ? AND attendance_date = ?",
@@ -52,7 +52,7 @@ def time_in_query(self, id):
 def time_out_query(self, id):
     date = datetime.now()
     time_now = date.strftime('%I:%M %p')
-    answer = messagebox.askyesno(f'{time_now}', 'You Want to TIME OUT?')
+    answer = messagebox.askyesno('TIME OUT', f'You are about to TIME OUT now {time_now} ?')
     if answer:
         self.c.execute(f"SELECT * FROM employee_attendance WHERE employee_id = '{id}' and time_out = 'None'")
         result = self.c.fetchone()

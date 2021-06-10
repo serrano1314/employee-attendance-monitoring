@@ -1,3 +1,4 @@
+from calendar import c
 from tkinter import *
 from tkinter import messagebox, ttk
 from datetime import datetime, date
@@ -112,6 +113,11 @@ def attendance_record(self, root_page, date, name):
 def choose_date(self,root ,root_root, name):
     # Window Creation
     date_page = Toplevel()
+    choose_date_w = 300
+    choose_date_h = 200
+    x = int((self.scr_w/2) - (choose_date_w/2))
+    y = int((self.scr_h/2) - (choose_date_h/2))
+    date_page.geometry(f'{choose_date_w}x{choose_date_h}+{x}+{y}')
     date_page.geometry('300x150')
     date_page.title('Date')
     # Getting the Date Today
@@ -132,7 +138,7 @@ def choose_date(self,root ,root_root, name):
 
     # Month Dropdown
     choices = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-    month = ttk.Combobox(date_frame, value=choices, width=4)
+    month = ttk.Combobox(date_frame, value=choices, width=4,state='readonly')
     month.current(choices.index(current_month))
     month.grid(row=1, column=0, padx=5)
 
@@ -142,8 +148,8 @@ def choose_date(self,root ,root_root, name):
     day.insert(0, current_day)
 
     # Year
-    years_list = [str(x) for x in range(2010, 2050+1)]
-    year = ttk.Combobox(date_frame, value=years_list, width=5)
+    years_list = [str(x) for x in range(2010, int(current_year)+1)]
+    year = ttk.Combobox(date_frame, value=years_list, width=5,state='readonly')
     year.current(years_list.index(current_year))
     year.grid(row=1, column=2, padx=10, sticky='w')
 
