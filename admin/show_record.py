@@ -126,7 +126,7 @@ def edit_record(self):
 def hides(password, checkbox):
     global hide
     if hide == 1:
-        password_edit['show'] = password
+        password_edit['show'] = ''
         hide= 0
     else:
         password_edit['show'] = '•'
