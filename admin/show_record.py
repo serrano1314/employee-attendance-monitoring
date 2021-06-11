@@ -202,6 +202,8 @@ def show_records(self, root_page):
 
     
     self.tree.bind('<Double-1>', lambda event, s=self: edit_record(s))
+    self.tree.bind('<F2>', lambda event, s=self: edit_record(s))
+    self.tree.bind('<Delete>', lambda event, s=self: delete_query(s))
     self.tree.pack()
 
     edit_btn = Button(show_record_page,image=self.edit_img,bd=0,bg=BGCOLOR,command=lambda: edit_record(self))
