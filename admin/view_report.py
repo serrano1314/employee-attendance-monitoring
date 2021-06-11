@@ -23,7 +23,7 @@ def monthly_report_func(event, self):
     y_atten_count = []
     
     # get the last date of the month
-    last_day = monthrange(int(self.cur_year), month_option.index(cur_month_str)+1)[1]+1
+    last_day = monthrange(int(cur_year_str), month_option.index(cur_month_str)+1)[1]+1
 
     # loop for appending month and date
     for x in range(1,last_day):
@@ -143,7 +143,7 @@ def hearbeat_report_func(self,frame):
 
     plt.bar(x_months,y_per_month_count)
     plt.title('Current Year Attendance Report')
-    plt.ylabel('NUMBER OF EMPLOYEES')
+    plt.ylabel('NUMBER OF ATTENDANCE RECORD')
     plt.xlabel('MONTH')
     plt.savefig('report_fig/hearbeat_report.png')
     plt.close()
