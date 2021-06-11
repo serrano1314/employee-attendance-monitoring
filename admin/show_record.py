@@ -200,6 +200,8 @@ def show_records(self, root_page):
         values=(record[0],record[2],record[3],record[4],record[5],record[6],record[7]))
         count+=1
 
+    
+    self.tree.bind('<Double-1>', lambda event, s=self: edit_record(s))
     self.tree.pack()
 
     edit_btn = Button(show_record_page,image=self.edit_img,bd=0,bg=BGCOLOR,command=lambda: edit_record(self))
