@@ -1,8 +1,8 @@
 # Imports
-from admin.show_record import *
-from admin.attendance_record import *
-from admin.add_record import *
-from admin.view_report import *
+from admin.show_record import show_records
+from admin.attendance_record import attendance_record
+from admin.add_record import add_record
+from admin.view_report import view_report
 from config_var import *
 from employee.employees import *
 from employee.time_in_out import *
