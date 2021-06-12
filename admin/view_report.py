@@ -53,7 +53,7 @@ def monthly_report_func(event, self):
         plt.plot(x_dates_of_month,y_atten_count,'.-')
         plt.fill_between(x_dates_of_month, y_atten_count, color='#539ecd')
 
-    plt.ylim(top=num_of_emp)
+    plt.ylim(top=num_of_emp-1)
     plt.xticks(rotation=65)
     plt.margins(0.01)
     plt.title(f'Monthly Attendance Report for {cur_month_num.upper()} {cur_year_str.upper()}')
@@ -76,11 +76,7 @@ def gender_percentage_func(self,frame):
     self.c.execute("SELECT * FROM employees WHERE sex = 'FEMALE' AND work_status = 'active'")
     gender_num.append(len(self.c.fetchall()))
     graph = plt.pie(gender_num,labels=gender,autopct='%1.2f%%')
-    # graph[0].set_color('#2940d3')
-    # graph[1].set_color('#ff96ad')
     plt.title('Gender Distribution')
-    # plt.xlabel('Gender')
-    # plt.ylabel('Number of Employees')
     plt.savefig("report_fig/gender_percetage.png")
     plt.close()
 
