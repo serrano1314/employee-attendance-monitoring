@@ -1,5 +1,6 @@
 *.psd
 readme.txt
+report_fig/*
 testing
 test.py
 # Byte-compiled / optimized / DLL files
