@@ -6,7 +6,7 @@ from tkinter import messagebox
 from datetime import date, datetime
 from calendar import monthrange
 from PIL import ImageTk, Image
-
+from os import mkdir,path
 import matplotlib.pyplot as plt
 
 #install numpy and matplotlib
@@ -149,6 +149,9 @@ def hearbeat_report_func(self,frame):
     
 
 def view_report(self,menu_page):
+    if not path.exists('report_fig'):
+        mkdir('report_fig')
+    
     view_report_page = Toplevel()
     view_report_page.title('Summary / Report')
     view_report_page.geometry(self.WINDOW_SIZE)
