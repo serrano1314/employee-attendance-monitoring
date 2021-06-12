@@ -58,8 +58,8 @@ def edit_record(self):
     x = int((self.scr_w/2) - (edit_page_w/2))
     y = int((self.scr_h/2) - (edit_page_h/2))
     win_size=f'{edit_page_w}x{edit_page_h}+{x}+{y}'
-    global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit,work_status_edit, hide
-    hide = 1
+    global employee_id_edit,password_edit,first_name_edit,last_name_edit,sex_edit,schedule_in_edit,schedule_out_edit,work_status_edit,showPassVar
+    
     edit_record_page = Toplevel()
     edit_record_page.title('EDIT EMPLOYEE RECORD')
     edit_record_page.geometry(win_size)
@@ -73,14 +73,13 @@ def edit_record(self):
     employee_id_edit.grid(row=2, column=table_col, pady=(40, 0))
 
     Label(edit_record_frame,text="PASSWORD:",bg=BGCOLOR).grid(row=3,column=table_col-1)
-    password_edit=Entry(edit_record_frame, width=cell_size)
+    password_edit=Entry(edit_record_frame, width=cell_size,show='•')
     password_edit.grid(row=3, column=table_col,sticky=W)
 
-    password_edit['show'] = '•'
-
-    check_box = Checkbutton(edit_record_frame,command=lambda :hides(record[1], check_box),variable=BooleanVar(),bg=BGCOLOR)
+    showPassVar = BooleanVar()
+    showPassVar.set(False)
+    check_box = Checkbutton(edit_record_frame,command=hides,variable=showPassVar,bg=BGCOLOR)
     check_box.grid(row=3, column=table_col,sticky=E)
-    
     Label(edit_record_frame,text="FIRST NAME:",bg=BGCOLOR).grid(row=4,column=table_col-1)
     first_name_edit=Entry(edit_record_frame, width=cell_size)
     first_name_edit.grid(row=4, column=table_col)
@@ -123,14 +122,12 @@ def edit_record(self):
     Button(edit_record_frame,image=self.cancel_img,bd=0,command=lambda:edit_record_page.destroy(),bg=BGCOLOR).grid(row=11,column=table_col-1,pady=20,padx=(40,0))
     Button(edit_record_frame,image=self.save_img,bd=0,command=lambda :update_query(self,edit_record_page,id),bg=BGCOLOR).grid(row=11,column=table_col,pady=20,padx=(20,0))
 
-def hides(password, checkbox):
-    global hide
-    if hide == 1:
-        password_edit['show'] = ''
-        hide= 0
+def hides():
+    if showPassVar.get():
+        password_edit.config(show='')
     else:
-        password_edit['show'] = '•'
-        hide = 1
+        password_edit.config(show='•')
+        
 
 def delete_query(self):
     try:
