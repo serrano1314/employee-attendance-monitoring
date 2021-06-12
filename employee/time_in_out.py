@@ -6,7 +6,7 @@ def time_in_query(self, id):
     date_time_now = datetime.now()
     date_now = date_time_now.strftime('%b-%d-%Y')
     time_now = date_time_now.time()
-    answer = messagebox.askyesno('TIME IN', f'You are about to TIME IN now {date_time_now.strftime("%H:%M %p")} ?')
+    answer = messagebox.askyesno('TIME IN', f'You are about to TIME IN now {date_time_now.strftime("%I:%M %p")} ?')
     if answer:
         # check if the user already time in today
         self.c.execute(f"SELECT time_in FROM employee_attendance WHERE employee_id = ? AND attendance_date = ?",
