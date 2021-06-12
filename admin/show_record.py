@@ -78,7 +78,9 @@ def edit_record(self):
 
     password_edit['show'] = '•'
 
-    check_box = Checkbutton(edit_record_frame,command=lambda :hides(record[1], check_box),bg=BGCOLOR)
+    CheckVar = BooleanVar()
+
+    check_box = Checkbutton(edit_record_frame,command=lambda :hides(record[1], check_box),variable=CheckVar,bg=BGCOLOR)
     check_box.grid(row=3, column=table_col,sticky=E)
     
     Label(edit_record_frame,text="FIRST NAME:",bg=BGCOLOR).grid(row=4,column=table_col-1)
