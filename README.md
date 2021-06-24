@@ -1,2 +1,2 @@
-# student-attendance-monitoring
-Student Attendance Monitoring System - Python
+# employee-attendance-monitoring
+ Attendance Monitoring System - Python
