@@ -77,7 +77,7 @@ def edit_record(self):
     password_edit.grid(row=3, column=table_col,sticky=W)
 
     showPassVar = BooleanVar()
-    showPassVar.set(False)
+    showPassVar.set = False
     check_box = Checkbutton(edit_record_frame,command=hides,variable=showPassVar,bg=BGCOLOR)
     check_box.grid(row=3, column=table_col,sticky=E)
     Label(edit_record_frame,text="FIRST NAME:",bg=BGCOLOR).grid(row=4,column=table_col-1)
@@ -103,8 +103,6 @@ def edit_record(self):
     Label(edit_record_frame, text="WORKING STATUS:",bg=BGCOLOR).grid(row=9, column=table_col - 1)
     work_status_edit= Entry(edit_record_frame, width=cell_size)
     work_status_edit.grid(row=9, column=table_col)
-
-
 
     self.c.execute(f"SELECT * FROM employees WHERE employee_id = '{id}'")
     records=self.c.fetchall()
